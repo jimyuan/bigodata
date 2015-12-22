@@ -1,9 +1,110 @@
 @charset 'utf-8';
 
-/* varibles */
-$spacer: $font-size-base;
-
 .container {
   width: 100%;
   padding: $spacer;
+}
+
+/* panel 模板定义 */
+.panel-mbs {
+  border-width: 0;
+
+  small {
+    display: block;
+    color: white;
+    font-size: 14px;
+  }
+
+  .panel-heading {
+    color: white;
+    background-color: $panel-heading-bg;
+    font-size: 18px;
+  }
+
+  .panel-body {
+    border-width: 0 1px 1px;
+    border-color: $panel-inner-border;
+    border-style: solid;
+  }
+
+  form + table {
+    margin-top: $spacer;
+
+    thead {
+      font-weight: bold;
+      background-color: $gray-lighter;
+    }
+  }
+
+  .pagination {
+    margin: 0;
+  }
+}
+
+/* 活动概况头部 */
+.mbs-h2 {
+  margin-top: 0;
+
+  > .btn-app {
+    margin-right: $spacer;
+  }
+
+  > small {
+    display: block;
+    font-size: 14px;
+    line-height: 2.5;
+  }
+}
+
+/* block */
+.block-area {
+  > div {
+    height: 140px;
+    border: 1px solid $panel-inner-border;
+  }
+
+  .block-expect {
+    width: 33%;
+    margin-right: 2%;
+    float: left;
+  }
+
+  .block-sms {
+    width: 65%;
+    float: right;
+  }
+
+  .fa {
+    display: block;
+    float: right;
+    background-color: #eff4fa;
+    line-height: 138px;
+    width: 140px;
+    text-align: center;
+    color: #c2c2c2;
+    font-size: 80px;
+  }
+
+  .content {
+    float: left;
+    padding: 0 $spacer;
+
+    p {
+      margin: 0;
+      margin-top: $spacer;
+      color: $gray-light;
+    }
+
+    small {
+      color: $gray-light;
+    }
+
+    h3:last-child {
+      margin: 0;
+    }
+
+    + & {
+      padding-left: 0;
+    }
+  }
 }

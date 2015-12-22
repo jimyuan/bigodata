@@ -1,0 +1,25 @@
+@charset 'utf-8';
+
+.btn-app {
+  width: 70px;
+  line-height: 1.5;
+  color: #fff;
+
+  > i {
+    display: block;
+    font-size: 30px;
+    line-height: 30px;
+    margin: 0 0 3px;
+  }
+
+  &:active,
+  &:hover,
+  &:focus {
+    outline-width: 0;
+    color: #fff;
+  }
+}
+
+.btn-ok {
+  background-color: $brand-success;
+}

@@ -1,8 +1,25 @@
 @charset 'utf-8';
-/* scss settings */
+/* scss variables reset */
+$spacer: 14px;
+
+$border-radius-base:   0;
+$border-radius-large:  0;
+$border-radius-small:  0;
+
+$panel-heading-bg: #527DEC;
+$pagination-active-bg: #72AFD7;
+$pagination-active-border: $pagination-active-bg;
+
+$brand-primary:         #428bca;
+$brand-success:         #87b87f;
+$brand-info:            #6FB3E2;
+$brand-warning:         #ffb752;
+$brand-danger:          #d15b47;
+
 @import 'utils/functions';
 @import 'utils/mixins';
 /* bootstrape scss files */
 @import '../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
 /* docs style */
+@import 'components/btn-app';
 @import 'layout/index';
