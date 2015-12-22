@@ -1,0 +1,8 @@
+@charset 'utf-8';
+/* scss settings */
+@import 'utils/functions';
+@import 'utils/mixins';
+/* bootstrape scss files */
+@import '../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
+/* docs style */
+@import 'layout/index';

@@ -1,0 +1,19 @@
+{
+  "name": "BigoData",
+  "version": "0.0.1",
+  "description": "BigoData Admin platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jimyuan/bigodata.git"
+  },
+  "authors": [
+    "Jim Yuan <aquarior@gmail.com>"
+  ],
+  "licenses": "MIT",
+  "dependencies": {
+    "jquery": "~1.11.3",
+    "echarts": "~2.2.7",
+    "font-awesome": "fontawesome#~4.5.0",
+    "bootstrap-sass": "twbs-bootstrap-sass#~3.3.6"
+  }
+}
