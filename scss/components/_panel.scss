@@ -1,0 +1,45 @@
+@charset 'utf-8';
+
+/* panel 排版重定义 */
+.panel-primary {
+  small {
+    display: block;
+    color: white;
+    font-size: 14px;
+  }
+
+  .panel-heading {
+    font-size: 18px;
+  }
+
+  form + table {
+    margin-top: $line-height-computed;
+  }
+
+  thead {
+    font-weight: bold;
+    background-color: $gray-lighter;
+  }
+
+  .pagination {
+    margin: 0;
+  }
+
+  .panel-info {
+    border-width: 0;
+
+    > .panel-heading {
+      font-size: 14px;
+    }
+
+    > .panel-body {
+      border-width: 0 1px 1px;
+      border-color: $panel-default-border;
+      border-style: solid;
+    }
+
+    > .table-bordered {
+      border: 1px solid $table-border-color;
+    }
+  }
+}

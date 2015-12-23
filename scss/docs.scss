@@ -6,9 +6,12 @@ $border-radius-base:   0;
 $border-radius-large:  0;
 $border-radius-small:  0;
 
-$panel-heading-bg: #527DEC;
-$pagination-active-bg: #72AFD7;
-$pagination-active-border: $pagination-active-bg;
+$panel-primary-border:        #527dec;
+$panel-primary-heading-bg:    #527dec;
+
+$panel-info-border:           #72afd7;
+$panel-info-heading-bg:       #72afd7;
+$panel-info-text:             #fff;
 
 $brand-primary:         #428bca;
 $brand-success:         #87b87f;
@@ -22,4 +25,6 @@ $brand-danger:          #d15b47;
 @import '../bower_components/bootstrap-sass/assets/stylesheets/bootstrap';
 /* docs style */
 @import 'components/btn-app';
+@import 'components/panel';
+
 @import 'layout/index';

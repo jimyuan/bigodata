@@ -6,12 +6,9 @@
   大店庆（牛栏）
   <small>活动时间: 2015-11-07 至 2015-11-08  申请人: manager  审核者:   活动编码: 1</small>
 </h2>
-<div class="panel panel-default panel-mbs">
+<div class="panel panel-primary">
   <!-- 活动概述 -->
-  <div class="panel-heading">
-    <small>small text:</small>
-    Panel heading without title
-  </div>
+  <div class="panel-heading"><i class="fa fa-bullhorn"></i> 亲爱的会员，11月7-8日店庆酬宾，牛栏2、3、4段买6送1，更多其他优惠请咨询店员。</div>
   <div class="panel-body">
     <form action="#" class="form-inline">
       <div class="form-group">
@@ -101,5 +98,101 @@
         <strong>发送失败:</strong> 88 条
       </p>
     </div>
+  </div>
+</div>
+<!-- 活动报告 -->
+<div class="panel panel-primary">
+  <div class="panel-heading"><i class="fa fa-file-text-o"></i> 活动报告</div>
+  <div class="panel-body">
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="storeFront" class="col-xs-2 control-label">选择店铺：</label>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="storeFront">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="baseTarget" class="col-xs-2 control-label">选择基本指标：</label>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="baseTarget">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="compareEvent" class="col-xs-2 control-label">添加对比活动：</label>
+        <div class="col-xs-10">
+          <input type="text" class="form-control" id="compareEvent">
+        </div>
+      </div>
+    </form>
+    <!-- 活动基本指标 -->
+    <div class="panel panel-info">
+      <div class="panel-heading"><i class="fa fa-table"></i> 活动基本指标</div>
+      <table class="table table-bordered table-hover" id="indexTable">
+        <thead>
+          <tr>
+            <td></td>
+            <td><label for="col-1"><input type="checkbox" id="col-1"> col-1</label></td>
+            <td><label for="col-2"><input type="checkbox" id="col-2"> col-2</label></td>
+            <td><label for="col-3"><input type="checkbox" id="col-3"> col-3</label></td>
+            <td><label for="col-4"><input type="checkbox" id="col-4"> col-4</label></td>
+            <td><label for="col-5"><input type="checkbox" id="col-5"> col-5</label></td>
+            <td><label for="col-6"><input type="checkbox" id="col-6"> col-6</label></td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>活动1</td>
+            <td>1,000</td>
+            <td>50.01%</td>
+            <td>99,999.01</td>
+            <td>99,999.01</td>
+            <td>2.31</td>
+            <td>234.31</td>
+          </tr>
+          <tr>
+            <td>活动对比</td>
+            <td>1,000 <span class="text-decline">30%</span></td>
+            <td>50.01% <span class="text-increase">10%</span></td>
+            <td>99,999.01 <span class="text-increase">12%</span></td>
+            <td>99,999.01 <span class="text-increase">40%</span></td>
+            <td>2.31 <span class="text-decline">14%</span></td>
+            <td>234.31 <span class="text-decline">20%</span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>活动总计</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <!-- 活动基本指标时间趋势图 -->
+    <div class="panel panel-info">
+      <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动基本指标时间趋势图</div>
+      <div class="panel-body">
+        blabla
+      </div>
+    </div>
+    <!-- 活动销售品类分析 -->
+    <div class="panel panel-info">
+      <div class="panel-heading"><i class="fa fa-area-chart"></i> 活动销售品类分析</div>
+      <div class="panel-body">
+        blabla
+      </div>
+    </div>
+    <!-- 活动销售额占比 -->
+    <div class="panel panel-info">
+      <div class="panel-heading"><i class="fa fa-area-chart"></i> 活动销售额占比</div>
+      <div class="panel-body">
+        blabla
+      </div>
+    </div>
+
   </div>
 </div>
