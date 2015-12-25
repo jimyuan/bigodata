@@ -15,6 +15,7 @@
     "echarts": "~2.2.7",
     "font-awesome": "fontawesome#~4.5.0",
     "bootstrap-sass": "twbs-bootstrap-sass#~3.3.6",
-    "magicsuggest": "~2.1.4"
+    "magicsuggest": "~2.1.4",
+    "artTemplate": "~3.0.1"
   }
 }

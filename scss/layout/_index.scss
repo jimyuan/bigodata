@@ -100,10 +100,20 @@
 
   label {
     display: block;
+    cursor: pointer;
   }
 }
 
 .over,
 .active {
   background-color: $gray-lighter;
+}
+
+.form-suggest {
+  width: 90%;
+  margin: auto;
+
+  > .form-group {
+    margin-top: $line-height-computed * 1.2;
+  }
 }

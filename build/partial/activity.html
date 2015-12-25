@@ -1,0 +1,127 @@
+<script type="text/html" id="basicPanel">
+  <!-- basic panel -->
+  <h2 class="mbs-h2 clearfix">
+    <button class="btn btn-app btn-ok pull-left">
+      <i class="fa fa-check"></i>
+      完成
+    </button>
+    {{ act_name }}
+    <small>活动时间: {{ act_begindate }} 至 {{ act_enddate }}  申请人: {{ act_appname }}  审核者: {{ act_pzname }}  活动编码: {{ act_id }}</small>
+  </h2>
+  <div class="panel panel-primary">
+    <div class="panel-heading"><i class="fa fa-bullhorn"></i> {{ act_describe }}</div>
+    <div class="panel-body"></div>
+  </div>
+</script>
+
+<script type="text/html" id="skuTable">
+  <!-- sku table -->
+  <form action="#" class="form-inline">
+    <div class="form-group">
+      <span>每页显示</span>
+      <select  class="form-control">
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="20">20</option>
+      </select>
+      <span>条记录</span>
+    </div>
+  </form>
+  <table class="table table-bordered table-hover">
+    <thead>
+      <tr>
+        <td>商品编码</td>
+        <td>商品名称</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{ each data }}
+      <tr>
+        <td>{{ $value.objid }}</td>
+        <td>{{ $value.objtext }}</td>
+      </tr>
+      {{ /each }}
+    </tbody>
+  </table>
+  <nav class="pull-right">
+    <ul class="pagination">
+      <li>
+        <a href="-1" data-click="turnPage"><span>&laquo;</span></a>
+      </li>
+      {{ each datas }}
+      {{ if page == $index }}
+      <li class="active">
+      {{ else }}
+      <li>
+      {{ /if }}
+        <a href="{{ $index + 1 }}" data-click="turnPage">{{ $index + 1 }}</a>
+      </li>
+      {{ /each }}
+      <li>
+        <a href="+1" data-click="turnPage"><span>&raquo;</span></a>
+      </li>
+    </ul>
+  </nav>
+</script>
+
+<script type="text/html" id="infoBlock">
+  <!-- info block -->
+  <div class="block-area clearfix">
+    <div class="block-expect">
+      <i class="fa fa-users"></i>
+      <div class="content">
+        <h3>活动预测</h3>
+        <p>本次活动预测有</p>
+         <h3>{{ estimate_usercount }} <small> 人参与</small></h3>
+      </div>
+    </div>
+    <div class="block-sms">
+      <i class="fa fa-envelope-o"></i>
+      <div class="content text-center">
+        <h3>短信触达率</h3>
+        <h1>90%</h1>
+      </div>
+      <div class="content">
+        <p>
+          <strong>发送时间:</strong> 2015-10-22 10:00:00
+        </p>
+        <p>
+          <strong>发送数量:</strong> 5449 条
+          <strong>成功发送:</strong> 4888 条
+        </p>
+        <p>
+          <strong>发送失败:</strong> 88 条
+        </p>
+      </div>
+    </div>
+  </div>
+</script>
+
+<script type="text/html" id="reportPanel">
+  <!-- report panel -->
+  <div class="panel panel-primary">
+    <div class="panel-heading"><i class="fa fa-file-text-o"></i> 活动报告</div>
+    <div class="panel-body">
+      <form class="form-horizontal form-suggest">
+        <div class="form-group">
+          <label for="storeFront" class="col-xs-2 control-label">选择店铺：</label>
+          <div class="col-xs-10">
+            <input type="text" class="form-control" id="storeFront">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="baseCatalog" class="col-xs-2 control-label">选择基本指标：</label>
+          <div class="col-xs-10">
+            <input type="text" class="form-control" id="baseCatalog">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="compareEvent" class="col-xs-2 control-label">添加对比活动：</label>
+          <div class="col-xs-10">
+            <input type="text" class="form-control" id="compareEvent">
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</script>

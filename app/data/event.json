@@ -1,0 +1,148 @@
+{
+  "data": {
+    "act_id": 37,
+    "act_status": 6,
+    "appname": "天 机",
+    "sysupdatedate": "2015-11-06 14:17:05",
+    "syscreatebyid": 1,
+    "estimate_time": "2015-10-23 16:02:43",
+    "act_begindate": "2015-11-06",
+    "act_describe": "亲爱的会员，11月7-8日店庆酬宾",
+    "msg_body": "测试短信，请勿回复",
+    "act_enddate": "2015-11-07",
+    "act_name": "周年庆",
+    "estimate_usercount": 3877
+  },
+  "act_sku": [
+    {
+      "objid": "0230118004",
+      "objtext": "蒸汽消毒锅"
+    },
+    {
+      "objid": "0230118003",
+      "objtext": "单触式蒸汽消毒锅超"
+    },
+    {
+      "objid": "0230118002",
+      "objtext": "多功能蒸汽消毒锅"
+    }
+  ],
+  "act_store": [
+    {
+      "objid": "NULL",
+      "objtext": "全部门店"
+    },
+    {
+      "objid": "901407",
+      "objtext": "BBL萧然店"
+    },
+    {
+      "objid": "9001408",
+      "objtext": "BBL沃尔玛店"
+    }
+  ],
+  "act_compare": [
+    {
+      "act_id": "32",
+      "act_name": "nc911活动推送"
+    },
+    {
+      "act_id": "33",
+      "act_name": "惠氏911"
+    },
+    {
+      "act_id": "34",
+      "act_name": "花王911"
+    }
+  ],
+  "act_catalog": [
+    {
+      "catid": 1,
+      "catalog": "短信发送人数"
+    },
+    {
+      "catid": 2,
+      "catalog": "实际购买人数"
+    },
+    {
+      "catid": 3,
+      "catalog": "目标产品实际购买人数"
+    },
+    {
+      "catid": 4,
+      "catalog": "目标产品销售金额"
+    },
+    {
+      "catid": 5,
+      "catalog": "所有产品销售件数"
+    },
+    {
+      "catid": 6,
+      "catalog": "目标产品销售件数"
+    },
+    {
+      "catid": 7,
+      "catalog": "所有产品客单件"
+    },
+    {
+      "catid": 8,
+      "catalog": "目标产品客单件"
+    },
+    {
+      "catid": 9,
+      "catalog": "所有产品客单价"
+    },
+    {
+      "catid": 10,
+      "catalog": "目标产品客单价"
+    },
+    {
+      "catid": 11,
+      "catalog": "目标客户购买所有产品金额"
+    },
+    {
+      "catid": 12,
+      "catalog": "目标客户购买目标产品金额"
+    },
+    {
+      "catid": 13,
+      "catalog": "短信触达率"
+    },
+    {
+      "catid": 14,
+      "catalog": "目标客户所有产品销售件数"
+    },
+    {
+      "catid": 15,
+      "catalog": "目标客户目标产品销售件数"
+    },
+    {
+      "catid": 16,
+      "catalog": "目标客户所有产品客单件"
+    },
+    {
+      "catid": 17,
+      "catalog": "目标客户目标产品客单件"
+    },
+    {
+      "catid": 18,
+      "catalog": "目标客户所有产品客单价"
+    },
+    {
+      "catid": 19,
+      "catalog": "目标客户目标产品客单价"
+    },
+    {
+      "catid": 20,
+      "catalog": "天机转化率"
+    },
+    {
+      "catid": 21,
+      "catalog": "天机目标产品转化率"
+    },
+    {
+      "catid": 22,
+      "catalog": "天机捕获率"
+    }
+  ]
+}

@@ -43,3 +43,7 @@
     }
   }
 }
+
+.panel-body > table:only-child {
+  margin-bottom: 0;
+}
