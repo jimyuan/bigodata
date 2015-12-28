@@ -7,7 +7,7 @@
     "syscreatebyid": 1,
     "estimate_time": "2015-10-23 16:02:43",
     "act_begindate": "2015-11-06",
-    "act_describe": "亲爱的会员，11月7-8日店庆酬宾",
+    "act_describe": "xx",
     "msg_body": "测试短信，请勿回复",
     "act_enddate": "2015-11-07",
     "act_name": "周年庆",
@@ -55,94 +55,61 @@
       "act_name": "花王911"
     }
   ],
-  "act_catalog": [
+  "act_baseindex": [
     {
-      "catid": 1,
-      "catalog": "短信发送人数"
+      "objid": "1",
+      "objtext": "短信发送人数",
+      "default": 1
     },
     {
-      "catid": 2,
-      "catalog": "实际购买人数"
+      "objid": "2",
+      "objtext": "实际购买人数",
+      "default": 1
     },
     {
-      "catid": 3,
-      "catalog": "目标产品实际购买人数"
+      "objid": "3",
+      "objtext": "目标产品实际购买人数",
+      "default": 1
     },
     {
-      "catid": 4,
-      "catalog": "目标产品销售金额"
+      "objid": "4",
+      "objtext": "所有产品销售金额",
+      "default": 1
     },
     {
-      "catid": 5,
-      "catalog": "所有产品销售件数"
+      "objid": "5",
+      "objtext": "目标产品销售金额",
+      "default": 1
     },
     {
-      "catid": 6,
-      "catalog": "目标产品销售件数"
+      "objid": "6",
+      "objtext": "所有产品销售件数",
+      "default": 1
     },
     {
-      "catid": 7,
-      "catalog": "所有产品客单件"
+      "objid": "7",
+      "objtext": "目标产品销售件数",
+      "default": 0
     },
     {
-      "catid": 8,
-      "catalog": "目标产品客单件"
+      "objid": "8",
+      "objtext": "所有产品客单件",
+      "default": 0
     },
     {
-      "catid": 9,
-      "catalog": "所有产品客单价"
+      "objid": "9",
+      "objtext": "目标产品客单件",
+      "default": 0
     },
     {
-      "catid": 10,
-      "catalog": "目标产品客单价"
+      "objid": "10",
+      "objtext": "所有产品客单价",
+      "default": 0
     },
     {
-      "catid": 11,
-      "catalog": "目标客户购买所有产品金额"
-    },
-    {
-      "catid": 12,
-      "catalog": "目标客户购买目标产品金额"
-    },
-    {
-      "catid": 13,
-      "catalog": "短信触达率"
-    },
-    {
-      "catid": 14,
-      "catalog": "目标客户所有产品销售件数"
-    },
-    {
-      "catid": 15,
-      "catalog": "目标客户目标产品销售件数"
-    },
-    {
-      "catid": 16,
-      "catalog": "目标客户所有产品客单件"
-    },
-    {
-      "catid": 17,
-      "catalog": "目标客户目标产品客单件"
-    },
-    {
-      "catid": 18,
-      "catalog": "目标客户所有产品客单价"
-    },
-    {
-      "catid": 19,
-      "catalog": "目标客户目标产品客单价"
-    },
-    {
-      "catid": 20,
-      "catalog": "天机转化率"
-    },
-    {
-      "catid": 21,
-      "catalog": "天机目标产品转化率"
-    },
-    {
-      "catid": 22,
-      "catalog": "天机捕获率"
+      "objid": "11",
+      "objtext": "圣诞节快乐",
+      "default": 0
     }
   ]
 }

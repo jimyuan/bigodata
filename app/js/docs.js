@@ -11,7 +11,10 @@
       infoBlock       = $('#infoBlock'),
       infoBlockTmpl   = template.compile(infoBlock.html()),
       reportPanel     = $('#reportPanel'),
-      reportPanelTmpl = template.compile(reportPanel.html());
+      reportPanelTmpl = template.compile(reportPanel.html()),
+
+      basicReport     = $('#basicReport'),
+      basicReportTmpl = template.compile(basicReport.html());
 
   var removeItems = [basicPanel, skuTable, infoBlock, reportPanel];
   for(var i=0, x=removeItems.length; i<x; i++) {removeItems[i].remove();}
@@ -34,27 +37,58 @@
   };
 
   /*
-    Ajax url setting
+    获取 url 上指定参数
   */
-  var actMsg = 'data/event.json', basicData, skuData;
+  var request = function(param){
+    var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
+    var r = location.search.substr(1).match(reg);
+    return (r !== null) ? decodeURIComponent(r[2]) : null;
+  };
 
   /*
-    sku 分页数据处理
-      data:    传入记录数
+    actid:     本次活动 id，默认从 url 中获取
+    actMsgUrl: 活动信息数据请求地址
+    actRptUrl: 活动报告数据请求地址
+    rptParams: 活动报告数据请求参数
+    basicData: 活动基本数据
+    skuData:   参与活动商品sku列表
+  */
+  var actid = request('actid') || 1,
+      actMsgUrl = 'data/event.json',
+      actMsgParam = {type: 'GetActMsg', actid: actid || 1},
+      actRptUrl = 'data/report.json',
+      rptParams = {},
+      basicData, skuData;
+
+  /*
+    Suggest 对象设置：
+    1. actStore     选择店铺
+    2. actCatalog   选择基本指标
+    3. actCompare   添加对比活动
+  */
+  var actStore, actCatalog, actCompare;
+
+  /* ----------------- split ----------------- */
+
+  /*
+    sku 分页处理， 供 pageRender 方法使用
+      data:    传入原始记录数
       page:    当前页 No.,默认0(第一页)
       pages:   共有页数
       records: 每页记录数，默认10条
   */
   var skuPage = function(data, page, records){
     var page = page - 1 || 0,
-        records = records || 2,
+        records = arguments[2] || 5,
         count = data.length,
         option = {
           page:  page,
           totle: count,
-          pages: Math.ceil(count / records)
+          pages: Math.ceil(count / records),
+          records: records
         },
         _arr = [], f, m;
+
     for(var i = 0; i < count; i++) {
       f = Math.floor(i / records), m = i % records;
       m === 0 && _arr.push([]);
@@ -90,10 +124,12 @@
     return $(sgst);
   };
 
+  /* ----------------- split ----------------- */
+
   /*
     活动信息ajax
   */
-  $.get(actMsg, {type: 'GetActMsg', actid: 1})
+  $.get(actMsgUrl, actMsgParam)
     .done(function(d){
       /*
         获取活动信息 API 数据进行页面渲染
@@ -111,7 +147,6 @@
       pageRender(basicData, infoBlockTmpl);
       // 4
       pageRender({}, reportPanelTmpl);
-
     })
     .done(function(d){
       /*
@@ -121,11 +156,13 @@
           - compare: 活动对比
           - catalog: 基本指标
         2. 活动店铺
+          - 选择全部，则 disable 其他选项，反之亦然
         3. 基本指标
         4. 对比活动
       */
       // 1
       var defaultSuggest = {
+        // 店铺选择
         store: function(){
           var data = d.act_store;
           return {
@@ -137,33 +174,33 @@
             })
           };
         },
-
+        // 活动对比
         compare: function(){
           return {
             data: d.act_compare,
             displayField: 'act_name',
             valueField: 'act_id',
+            value: [33]
           };
         },
-
+        // 基本指标
         catalog: function(){
-          var data = d.act_catalog,
-              defaultCatalog = ['目标客户购买人数','天机转化率','目标客户购买所有产品金额','目标客户购买目标产品金额','目标客户所有产品客单件','目标客户所有产品客单价'];
+          var data = d.act_baseindex;
           return {
             data: data,
-            displayField: 'catalog',
-            valueField: 'catid',
+            displayField: 'objtext',
+            valueField: 'objid',
             maxSelection: 6,
-            maxSelectionRenderer: function(v){return '最多显示' + 6+ '项';},
+            maxSelectionRenderer: function(v){return '最多选取 ' + 6 + ' 项';},
             value: data.filter(function(item){
-              return defaultCatalog.indexOf(item.catalog) > -1;
+              return item.default === 1;
             })
           };
         }
       }
 
       // 2
-      var actStore = suggest('#storeFront', defaultSuggest.store());
+      actStore = suggest('#storeFront', defaultSuggest.store());
       actStore.on('selectionchange expand', function(){
         var value= this.getValue(),
             data = this.getData();
@@ -191,20 +228,24 @@
       });
 
       // 3
-      var actCatalog = suggest('#baseCatalog', defaultSuggest.catalog())
+      actCatalog = suggest('#baseCatalog', defaultSuggest.catalog())
+      actCatalog.on('blur', function(){
+        this.getSelection().length !== 6 && alert('必须选出6项指标！')
+      });
 
       // 4
-      var actCompare = suggest('#compareEvent', defaultSuggest.compare());
-    })
-    .done(function(d){
-      console.log(d.data.act_id);
+      actCompare = suggest('#compareEvent', defaultSuggest.compare());
     });
 
-  /*
-    event area
-  */
+  /* ----------------- split ----------------- */
 
+  /*
+    click event area
+    1. sku list pagination action
+    2. 活动基本指标
+  */
   var clickEvent = {
+    // 1
     turnPage: function(e, self){
       e.preventDefault();
       var href = self.attr('href'),
@@ -220,12 +261,60 @@
         && pageRender(
           skuPage(skuData, page),
           skuTableTmpl, $('.panel:first>.panel-body'));
+    },
+
+    /*
+      a. 组装参数
+      b. 获取接口数据
+      c. 渲染基本报告数据表格
+    */
+    gotReport: function(e, obj){
+      e.preventDefault();
+      var spin = obj.children('i');
+      spin.addClass('fa-spin');
+
+      var storeid = actStore[0].getValue(),
+          compareid = actCompare[0].getValue(),
+          comparetag = actCatalog[0].getValue();
+      if (comparetag.length !== 6) {
+        actCatalog.trigger('blur');
+        return false;
+      }
+      // a
+      $.extend(rptParams, {
+        actid: actid,
+        storeid: storeid,
+        comparetag: comparetag
+      });
+      comparetag.length > 0
+        && $.extend(rptParams, {compareid: compareid});
+      // b
+      $.get(actRptUrl, rptParams)
+        .done(function(d){
+          // c
+          spin.removeClass('fa-spin');
+          pageRender({
+            catalog: actCatalog[0].getSelection(),
+            compare: d['msg_compare'],
+            activity: actCompare[0].getSelection().map(function(item){
+              return item.act_name;
+            }).unshift(basicData.appname)
+          }, basicReportTmpl, $('#subPanel1'));
+        });
     }
   }
 
   $(document).on('click', '[data-click]', function(e){
     var self = $(this), evt = self.data('click');
     clickEvent[evt] && clickEvent[evt](e, self);
+  });
+
+  // 翻页 onchange 事件
+  $(document).on('change', '#pageSetting', function(){
+    var records = $(this).val() - 0;
+    pageRender(
+        skuPage(skuData, 1, records),
+        skuTableTmpl, $('.panel:first>.panel-body'));
   });
 
   // $('#indexTable').on('click', 'thead input', function(e){

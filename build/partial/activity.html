@@ -19,10 +19,10 @@
   <form action="#" class="form-inline">
     <div class="form-group">
       <span>每页显示</span>
-      <select  class="form-control">
-        <option value="10">10</option>
-        <option value="15">15</option>
-        <option value="20">20</option>
+      <select  class="form-control" id="pageSetting">
+        <option value="5" {{if records == 5}}selected{{/if}}>5</option>
+        <option value="10" {{if records == 10}}selected{{/if}}>10</option>
+        <option value="15" {{if records == 15}}selected{{/if}}>15</option>
       </select>
       <span>条记录</span>
     </div>
@@ -43,6 +43,10 @@
       {{ /each }}
     </tbody>
   </table>
+  <div class="pull-left">
+    第 {{ page + 1 }} / {{ pages }} 页，共有记录 {{ totle }} 条
+  </div>
+  {{ if pages > 1 }}
   <nav class="pull-right">
     <ul class="pagination">
       <li>
@@ -62,6 +66,7 @@
       </li>
     </ul>
   </nav>
+  {{ /if }}
 </script>
 
 <script type="text/html" id="infoBlock">
@@ -121,7 +126,65 @@
             <input type="text" class="form-control" id="compareEvent">
           </div>
         </div>
+        <div class="form-group">
+          <div class="col-sm-offset-2 col-sm-10">
+            <button class="btn btn-primary" data-click="gotReport">
+              <i class="fa fa-refresh"></i>
+              确定</button>
+          </div>
+        </div>
       </form>
+
+      <div class="panel panel-info" id="subPanel1"></div>
     </div>
   </div>
+</script>
+
+<script type="text/html" id="basicReport">
+  <div class="panel-heading"><i class="fa fa-table"></i> 活动基本指标</div>
+  <table class="table table-bordered table-hover" id="indexTable">
+    <thead>
+      <tr>
+        <td></td>
+        {{ each catalog }}
+        <td>
+          <label for="col-{{ $value.objid }}">
+            <input type="checkbox" id="col-{{ $value.objid }}"> {{ $value.objtext }}
+          </label>
+        </td>
+        {{ /each }}
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>活动1</td>
+        <td>1,000</td>
+        <td>50.01%</td>
+        <td>99,999.01</td>
+        <td>99,999.01</td>
+        <td>2.31</td>
+        <td>234.31</td>
+      </tr>
+      <tr>
+        <td>活动对比</td>
+        <td>1,000 <span class="text-decline">30%</span></td>
+        <td>50.01% <span class="text-increase">10%</span></td>
+        <td>99,999.01 <span class="text-increase">12%</span></td>
+        <td>99,999.01 <span class="text-increase">40%</span></td>
+        <td>2.31 <span class="text-decline">14%</span></td>
+        <td>234.31 <span class="text-decline">20%</span></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td>活动总计</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
 </script>
