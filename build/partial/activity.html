@@ -72,7 +72,7 @@
 <script type="text/html" id="infoBlock">
   <!-- info block -->
   <div class="block-area clearfix">
-    <div class="block-expect">
+    <div class="col-xs-4 block-expect">
       <i class="fa fa-users"></i>
       <div class="content">
         <h3>活动预测</h3>
@@ -80,7 +80,7 @@
          <h3>{{ estimate_usercount }} <small> 人参与</small></h3>
       </div>
     </div>
-    <div class="block-sms">
+    <div class="col-xs-8 block-sms">
       <i class="fa fa-envelope-o"></i>
       <div class="content text-center">
         <h3>短信触达率</h3>
@@ -135,7 +135,12 @@
         </div>
       </form>
 
-      <div class="panel panel-info" id="subPanel1"></div>
+      <div class="panel panel-info" id="spIndex"></div>
+      <!-- 活动基本指标时间趋势图 -->
+      <div class="panel panel-info hide" id="spBaseChart">
+        <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动基本指标时间趋势图</div>
+        <div class="panel-body"></div>
+      </div>
     </div>
   </div>
 </script>
@@ -149,42 +154,21 @@
         {{ each catalog }}
         <td>
           <label for="col-{{ $value.objid }}">
-            <input type="checkbox" id="col-{{ $value.objid }}"> {{ $value.objtext }}
+            <input type="checkbox" id="col-{{ $value.objid }}" data-click="timeAreaChart" data-index="{{$index}}" data-catalog="{{$value.objtext}}"> {{ $value.objtext }}
           </label>
         </td>
         {{ /each }}
       </tr>
     </thead>
     <tbody>
+      {{ each activity }}
       <tr>
-        <td>活动1</td>
-        <td>1,000</td>
-        <td>50.01%</td>
-        <td>99,999.01</td>
-        <td>99,999.01</td>
-        <td>2.31</td>
-        <td>234.31</td>
+        <td>{{ $value }}</td>
+        {{ each compare[$index] as val }}
+        <td>{{ val }}</td>
+        {{ /each }}
       </tr>
-      <tr>
-        <td>活动对比</td>
-        <td>1,000 <span class="text-decline">30%</span></td>
-        <td>50.01% <span class="text-increase">10%</span></td>
-        <td>99,999.01 <span class="text-increase">12%</span></td>
-        <td>99,999.01 <span class="text-increase">40%</span></td>
-        <td>2.31 <span class="text-decline">14%</span></td>
-        <td>234.31 <span class="text-decline">20%</span></td>
-      </tr>
+      {{ /each }}
     </tbody>
-    <tfoot>
-      <tr>
-        <td>活动总计</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tfoot>
   </table>
 </script>

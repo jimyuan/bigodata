@@ -50,15 +50,15 @@
     actMsgUrl: 活动信息数据请求地址
     actRptUrl: 活动报告数据请求地址
     rptParams: 活动报告数据请求参数
-    basicData: 活动基本数据
-    skuData:   参与活动商品sku列表
+    actMsgData: 活动基本数据
+    actRptData: 活动报告数据
   */
   var actid = request('actid') || 1,
       actMsgUrl = 'data/event.json',
       actMsgParam = {type: 'GetActMsg', actid: actid || 1},
       actRptUrl = 'data/report.json',
       rptParams = {},
-      basicData, skuData;
+      actMsgData, actRptData;
 
   /*
     Suggest 对象设置：
@@ -124,12 +124,55 @@
     return $(sgst);
   };
 
+  /*
+    活动基本指标趋势图基本设置
+  */
+  var setBaseChart = function(container, title, category, data){
+    var option = {
+      title: {
+        text: title
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      toolbox: {
+        show: true,
+        feature: {
+          mark: {show: true},
+          magicType: {show: true, type: ['line', 'bar']},
+          restore: {show: true},
+          saveAsImage: {show: true}
+        }
+      },
+      calculable : true,
+      xAxis : [{
+        type: 'category',
+        boundaryGap : false,
+        data: category
+      }],
+      yAxis: [{
+        type: 'value'
+      }],
+      series: [{
+        name: '人数',
+        type: 'line',
+        smooth: true,
+        itemStyle: {normal: {areaStyle: {type: 'default'}}},
+        data: data
+      }]
+    };
+    echarts.init(container, 'macarons').setOption(option);
+  };
+
   /* ----------------- split ----------------- */
 
   /*
     活动信息ajax
   */
   $.get(actMsgUrl, actMsgParam)
+    .done(function(data){
+      actMsgData = data;
+    })
     .done(function(d){
       /*
         获取活动信息 API 数据进行页面渲染
@@ -138,11 +181,11 @@
         3. 活动预测
         4. 活动报告
       */
-      basicData = d.data, skuData = d.act_sku;
+      var basicData = actMsgData.data, skuData = actMsgData.act_sku;
       // 1
       pageRender(basicData, basicPanelTmpl);
       // 2
-      pageRender(skuPage(skuData), skuTableTmpl, $('.panel:first>.panel-body'));
+      pageRender(skuPage(actMsgData.act_sku), skuTableTmpl, $('.panel:first>.panel-body'));
       // 3
       pageRender(basicData, infoBlockTmpl);
       // 4
@@ -159,12 +202,13 @@
           - 选择全部，则 disable 其他选项，反之亦然
         3. 基本指标
         4. 对比活动
+        5. 页面渲染完成后立即生成活动基本指标
       */
       // 1
       var defaultSuggest = {
         // 店铺选择
         store: function(){
-          var data = d.act_store;
+          var data = actMsgData.act_store;
           return {
             data: data,
             displayField: 'objtext',
@@ -177,15 +221,14 @@
         // 活动对比
         compare: function(){
           return {
-            data: d.act_compare,
+            data: actMsgData.act_compare,
             displayField: 'act_name',
-            valueField: 'act_id',
-            value: [33]
+            valueField: 'act_id'
           };
         },
         // 基本指标
         catalog: function(){
-          var data = d.act_baseindex;
+          var data = actMsgData.act_baseindex;
           return {
             data: data,
             displayField: 'objtext',
@@ -235,6 +278,9 @@
 
       // 4
       actCompare = suggest('#compareEvent', defaultSuggest.compare());
+
+      // 5
+      $('[data-click=gotReport]').trigger('click');
     });
 
   /* ----------------- split ----------------- */
@@ -243,9 +289,10 @@
     click event area
     1. sku list pagination action
     2. 活动基本指标
+    3. 活动基本指标时间趋势图
   */
   var clickEvent = {
-    // 1
+    // 1. sku list pagination action
     turnPage: function(e, self){
       e.preventDefault();
       var href = self.attr('href'),
@@ -264,9 +311,10 @@
     },
 
     /*
-      a. 组装参数
-      b. 获取接口数据
-      c. 渲染基本报告数据表格
+      2. 活动基本指标
+        a. 组装参数
+        b. 获取接口数据
+        c. 渲染基本报告数据表格
     */
     gotReport: function(e, obj){
       e.preventDefault();
@@ -290,17 +338,48 @@
         && $.extend(rptParams, {compareid: compareid});
       // b
       $.get(actRptUrl, rptParams)
-        .done(function(d){
+        .done(function(data){
+          actRptData = data;
           // c
           spin.removeClass('fa-spin');
           pageRender({
             catalog: actCatalog[0].getSelection(),
-            compare: d['msg_compare'],
-            activity: actCompare[0].getSelection().map(function(item){
-              return item.act_name;
-            }).unshift(basicData.appname)
-          }, basicReportTmpl, $('#subPanel1'));
+            compare: actRptData['msg_compare'],
+            activity: [].concat.apply([],[
+              actMsgData.data.act_name, actCompare[0].getSelection().map(function(item){
+                return item.act_name;
+              }),
+              '活动总计'])
+          }, basicReportTmpl, $('#spIndex'));
         });
+    },
+    /*
+      3.活动基本指标时间趋势图
+        a. 有指标 checked 时显示趋势图 panel
+        b. 有指标选中时，创建该 charts 容器，否则就 remove 掉
+    */
+    timeAreaChart: function(e, self){
+      var baseChartPanel = $('#spBaseChart'),
+          index = self.data('index'),
+          chartContainer = $('#baseChart' + index)[0],
+          dataset = actRptData['msg_timetrend'][index];
+      // a
+      self.closest('tr').find(':checked').length > 0 ? baseChartPanel.removeClass('hide') : baseChartPanel.addClass('hide');
+      // b
+      if(!!!chartContainer && self.is(':checked')) {
+        $('#spBaseChart > .panel-body').append($('<div class="col-xs-6" id="baseChart' + index + '" style="height:300px;"></div>'));
+        setBaseChart(
+          $('#baseChart' + index)[0],
+          self.data('catalog'),
+          dataset['dailydate'],
+          dataset['dailydata']
+        )
+      } else if(!!chartContainer && !self.is(':checked')) {
+        chartContainer.remove();
+      } else {
+        return;
+      }
+
     }
   }
 
