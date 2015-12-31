@@ -20,9 +20,9 @@
     <div class="form-group">
       <span>每页显示</span>
       <select  class="form-control" id="pageSetting">
-        <option value="5" {{if records == 5}}selected{{/if}}>5</option>
-        <option value="10" {{if records == 10}}selected{{/if}}>10</option>
-        <option value="15" {{if records == 15}}selected{{/if}}>15</option>
+        {{ each [5,10,15] }}
+        <option value="{{ $value }}"{{ if records == $value }} selected{{ /if }}>{{ $value }}</option>
+        {{ /each }}
       </select>
       <span>条记录</span>
     </div>
@@ -77,7 +77,7 @@
       <div class="content">
         <h3>活动预测</h3>
         <p>本次活动预测有</p>
-         <h3>{{ estimate_usercount }} <small> 人参与</small></h3>
+         <h3>{{ estimate_usercount | dataFormat }} <small> 人参与</small></h3>
       </div>
     </div>
     <div class="col-xs-8 block-sms">
@@ -105,7 +105,9 @@
 <script type="text/html" id="reportPanel">
   <!-- report panel -->
   <div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-file-text-o"></i> 活动报告</div>
+    <div class="panel-heading">
+      <i class="fa fa-file-text-o"></i> 活动报告
+    </div>
     <div class="panel-body">
       <form class="form-horizontal form-suggest">
         <div class="form-group">
@@ -128,7 +130,7 @@
         </div>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-10">
-            <button class="btn btn-primary" data-click="gotReport">
+            <button class="btn btn-primary" data-click="getReport">
               <i class="fa fa-refresh"></i>
               确定</button>
           </div>
@@ -164,8 +166,13 @@
       {{ each activity }}
       <tr>
         <td>{{ $value }}</td>
-        {{ each compare[$index] as val }}
-        <td>{{ val }}</td>
+        {{ each compare[$index] as val i }}
+        <td>
+          {{ val | dataFormat }}
+          {{ if $index > 0 && $index < activity.length - 1 }}
+          {{ (compare[0][i] - val) / val * 100 | rateFormat }}
+          {{ /if }}
+        </td>
         {{ /each }}
       </tr>
       {{ /each }}

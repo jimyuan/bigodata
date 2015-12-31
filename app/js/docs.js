@@ -2,6 +2,33 @@
   'use strict';
 
   /*
+    artTemplate 数值格式化方法
+    添加千分位，可跟第二个参数，添加一个后缀，例如'%'
+    用法： {{ value | dataFormat }} or {{ value | dataFormat:'%' }}
+  */
+  template.helper('dataFormat', function(data){
+    var num = data.toString(), result = '';
+    while (num.length > 3) {
+      result = ',' + num.slice(-3) + result;
+      num = num.slice(0, num.length - 3);
+    }
+    result = num + result;
+    return arguments[1] ? result + arguments[1] : result;
+  });
+
+  /*
+    artTemplate 增长率格式化方法
+    绿减红增
+  */
+  template.helper('rateFormat', function(data){
+    var value = parseFloat(data),
+        cls   = value > 0
+                ? 'text-increase'
+                : value < 0 ? 'text-decline' : 'pull-right';
+    return '<span class="fa ' + cls + '">' + value.toFixed(2) + ' %</span>';
+  });
+
+  /*
     render template setting
   */
   var basicPanel      = $('#basicPanel'),
@@ -77,8 +104,8 @@
       pages:   共有页数
       records: 每页记录数，默认10条
   */
-  var skuPage = function(data, page, records){
-    var page = page - 1 || 0,
+  var skuPage = function(data, pg){
+    var page = pg - 1 || 0,
         records = arguments[2] || 5,
         count = data.length,
         option = {
@@ -128,6 +155,7 @@
     活动基本指标趋势图基本设置
   */
   var setBaseChart = function(container, title, category, data){
+    var ifPercentage = /%$/.test(data[0]);
     var option = {
       title: {
         text: title
@@ -151,14 +179,19 @@
         data: category
       }],
       yAxis: [{
-        type: 'value'
+        type: 'value',
+        axisLabel: {
+          formatter: ifPercentage ? '{value}%' : '{value}'
+        }
       }],
       series: [{
-        name: '人数',
+        name: title,
         type: 'line',
         smooth: true,
         itemStyle: {normal: {areaStyle: {type: 'default'}}},
-        data: data
+        data: data.map(function(item){
+          return $.isNumeric(item) ? item : parseFloat(item);
+        })
       }]
     };
     echarts.init(container, 'macarons').setOption(option);
@@ -240,7 +273,7 @@
             })
           };
         }
-      }
+      };
 
       // 2
       actStore = suggest('#storeFront', defaultSuggest.store());
@@ -271,9 +304,9 @@
       });
 
       // 3
-      actCatalog = suggest('#baseCatalog', defaultSuggest.catalog())
+      actCatalog = suggest('#baseCatalog', defaultSuggest.catalog());
       actCatalog.on('blur', function(){
-        this.getSelection().length !== 6 && alert('必须选出6项指标！')
+        this.getSelection().length !== 6 && alert('必须选出6项指标！');
       });
 
       // 4
@@ -296,6 +329,7 @@
     turnPage: function(e, self){
       e.preventDefault();
       var href = self.attr('href'),
+          skuData = actMsgData.act_sku,
           pages = skuPage(skuData).pages, page;
 
       if(href === '+1' || href === '-1') {
@@ -314,9 +348,10 @@
       2. 活动基本指标
         a. 组装参数
         b. 获取接口数据
-        c. 渲染基本报告数据表格
+        c. 计算对比活动与默认活动的指标对比增幅
+        d. 渲染基本报告数据表格
     */
-    gotReport: function(e, obj){
+    getReport: function(e, obj){
       e.preventDefault();
       var spin = obj.children('i');
       spin.addClass('fa-spin');
@@ -340,17 +375,22 @@
       $.get(actRptUrl, rptParams)
         .done(function(data){
           actRptData = data;
+          var compareData = actRptData.msg_compare,
+              option = {
+                catalog: actCatalog[0].getSelection(),
+                compare: compareData,
+                activity: [].concat.apply([],[
+                  actMsgData.data.act_name, actCompare[0].getSelection().map(function(item){
+                    return item.act_name;
+                  }),
+                  '活动总计'])
+              };
           // c
+          var curActIndex = compareData[0],
+              cpIndex = compareData.slice(1, compareData.length-1);
+          // d
           spin.removeClass('fa-spin');
-          pageRender({
-            catalog: actCatalog[0].getSelection(),
-            compare: actRptData['msg_compare'],
-            activity: [].concat.apply([],[
-              actMsgData.data.act_name, actCompare[0].getSelection().map(function(item){
-                return item.act_name;
-              }),
-              '活动总计'])
-          }, basicReportTmpl, $('#spIndex'));
+          pageRender(option, basicReportTmpl, $('#spIndex'));
         });
     },
     /*
@@ -362,7 +402,7 @@
       var baseChartPanel = $('#spBaseChart'),
           index = self.data('index'),
           chartContainer = $('#baseChart' + index)[0],
-          dataset = actRptData['msg_timetrend'][index];
+          dataset = actRptData.msg_timetrend[index];
       // a
       self.closest('tr').find(':checked').length > 0 ? baseChartPanel.removeClass('hide') : baseChartPanel.addClass('hide');
       // b
@@ -371,17 +411,16 @@
         setBaseChart(
           $('#baseChart' + index)[0],
           self.data('catalog'),
-          dataset['dailydate'],
-          dataset['dailydata']
-        )
+          dataset.dailydate,
+          dataset.dailydata
+        );
       } else if(!!chartContainer && !self.is(':checked')) {
         chartContainer.remove();
       } else {
         return;
       }
-
     }
-  }
+  };
 
   $(document).on('click', '[data-click]', function(e){
     var self = $(this), evt = self.data('click');
@@ -392,7 +431,7 @@
   $(document).on('change', '#pageSetting', function(){
     var records = $(this).val() - 0;
     pageRender(
-        skuPage(skuData, 1, records),
+        skuPage(actMsgData.act_sku, 1, records),
         skuTableTmpl, $('.panel:first>.panel-body'));
   });
 

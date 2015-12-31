@@ -42,7 +42,6 @@
   }
 
   .fa {
-    display: block;
     float: right;
     background-color: #eff4fa;
     line-height: 138px;
@@ -81,8 +80,8 @@
   float: right;
   color: $brand-success;
 
-  &:before {
-    content: '-';
+  &:after {
+    content: ' \f175';
   }
 }
 
@@ -93,9 +92,24 @@
   &:before {
     content: '+';
   }
+
+  &:after {
+    content: ' \f176';
+  }
+}
+
+.text-decline,
+.text-increase {
+  &.fa {
+    font-size: 0.8em;
+    line-height: $line-height-computed;
+    font-weight: bold;
+  }
 }
 
 #indexTable {
+  table-layout: fixed;
+
   thead {
     background-color: transparent;
   }

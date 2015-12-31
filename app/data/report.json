@@ -1,13 +1,28 @@
 {
   "msg_compare": [
     [
-      0, 0, 0, 0, 0, 0
+      432,
+      4534,
+      670,
+      6568,
+      570,
+      4000
     ],
     [
-      1, 2, 3, 4, 5, 6
+      781,
+      7032,
+      243,
+      4544,
+      605,
+      2430
     ],
     [
-      2, 3, 4, 5, 6, 7
+      6462,
+      56463,
+      784,
+      23242345,
+      97896,
+      34237
     ]
   ],
   "msg_timetrend": [
@@ -75,12 +90,12 @@
         "2015-11-15"
       ],
       "dailydata": [
-        0.1,
-        0.11,
-        0.12,
-        0.13,
-        0.14,
-        0.19
+        "10%",
+        "11%",
+        "12%",
+        "13%",
+        "14%",
+        "19%"
       ]
     },
     {
@@ -121,74 +136,723 @@
     }
   ],
   "msg_category": {
-    "sales_name": [
-      "食品",
-      "棉品",
-      "玩具",
-      "宝宝内衣",
-      "车床"
+    "customer_all": [
+      {
+        "sales_name": [
+          "食品",
+          "棉品",
+          "玩具",
+          "宝宝内衣",
+          "车床"
+        ],
+        "sales_value": [
+          55318,
+          8714,
+          9200,
+          6884,
+          3601
+        ],
+        "sales_brandname": [
+          "惠氏",
+          "花王",
+          "大王",
+          "好奇",
+          "帮宝适"
+        ],
+        "sales_brandvalue": [
+          12274,
+          3429,
+          9896,
+          10219,
+          11174
+        ]
+      },
+      {
+        "sales_name": [
+          "食品"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "棉品"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "玩具"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "宝宝内衣"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "车床"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      }
     ],
-    "sales_value": [
-      55318,
-      8714,
-      9200,
-      6884,
-      3601
-    ],
-    "sales_brandname": [
-      "惠氏",
-      "花王",
-      "大王",
-      "好奇",
-      "帮宝适"
-    ],
-    "sales_brandvalue": [
-      12274,
-      3429,
-      9896,
-      10219,
-      11174
+    "customer_target": [
+      {
+        "sales_name": [
+          "食品",
+          "棉品",
+          "玩具",
+          "宝宝内衣",
+          "车床"
+        ],
+        "sales_value": [
+          55318,
+          8714,
+          9200,
+          6884,
+          3601
+        ],
+        "sales_brandname": [
+          "惠氏",
+          "花王",
+          "大王",
+          "好奇",
+          "帮宝适"
+        ],
+        "sales_brandvalue": [
+          12274,
+          3429,
+          9896,
+          10219,
+          11174
+        ]
+      },
+      {
+        "sales_name": [
+          "食品"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "棉品"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "玩具"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "宝宝内衣"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      },
+      {
+        "sales_name": [
+          "车床"
+        ],
+        "sales_brandvalue": [
+          1227,
+          342,
+          989,
+          1021,
+          1117
+        ]
+      }
     ]
   },
   "msg_customer": {
-    "category": [
-      "食品",
-      "棉品",
-      "外出服",
-      "宝宝内衣",
-      "鞋子"
+    "customer_all": [
+      {
+        "category": [
+          "食品",
+          "棉品",
+          "外出服",
+          "宝宝内衣",
+          "鞋子"
+        ],
+        "number": [
+          965,
+          875,
+          800,
+          725,
+          654
+        ],
+        "population_distribution": {
+          "relation": 700,
+          "notrelated": 800
+        },
+        "category_analysis_name": [
+          "棉品",
+          "外出服",
+          "玩具",
+          "宝宝内衣",
+          "鞋子"
+        ],
+        "category_analysis_numbers": {
+          "relation": [
+            325,
+            335,
+            300,
+            500,
+            125
+          ],
+          "notrelated": [
+            325,
+            335,
+            300,
+            500,
+            125
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            5650,
+            3350,
+            1250,
+            4125,
+            2050
+          ],
+          "notrelated": [
+            5650,
+            3350,
+            1250,
+            4125,
+            2050
+          ]
+        }
+      },
+      {
+        "category": [
+          "食品"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "棉品"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "外出服"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "宝宝内衣"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "鞋子"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      }
     ],
-    "number": [
-      965,
-      875,
-      800,
-      725,
-      654
-    ],
-    "population_distribution": {
-      "relation": 700,
-      "notrelated": 800
-    },
-    "category_analysis_name": [
-      "棉品",
-      "外出服",
-      "玩具",
-      "宝宝内衣",
-      "鞋子"
-    ],
-    "category_analysis_numbers": [
-      325,
-      335,
-      300,
-      500,
-      125
-    ],
-    "category_analysis_sales": [
-      5650,
-      3350,
-      1250,
-      4125,
-      2050
+    "customer_target": [
+      {
+        "category": [
+          "食品",
+          "棉品",
+          "外出服",
+          "宝宝内衣",
+          "鞋子"
+        ],
+        "number": [
+          965,
+          875,
+          800,
+          725,
+          654
+        ],
+        "population_distribution": {
+          "relation": 700,
+          "notrelated": 800
+        },
+        "category_analysis_name": [
+          "棉品",
+          "外出服",
+          "玩具",
+          "宝宝内衣",
+          "鞋子"
+        ],
+        "category_analysis_numbers": {
+          "relation": [
+            325,
+            335,
+            300,
+            500,
+            125
+          ],
+          "notrelated": [
+            325,
+            335,
+            300,
+            500,
+            125
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            5650,
+            3350,
+            1250,
+            4125,
+            2050
+          ],
+          "notrelated": [
+            5650,
+            3350,
+            1250,
+            4125,
+            2050
+          ]
+        }
+      },
+      {
+        "category": [
+          "食品"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "棉品"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "外出服"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "宝宝内衣"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      },
+      {
+        "category": [
+          "鞋子"
+        ],
+        "population_distribution": {
+          "relation": 70,
+          "notrelated": 80
+        },
+        "category_analysis_numbers": {
+          "relation": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ],
+          "notrelated": [
+            32,
+            33,
+            30,
+            50,
+            12
+          ]
+        },
+        "category_analysis_sales": {
+          "relation": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ],
+          "notrelated": [
+            565,
+            335,
+            125,
+            412,
+            205
+          ]
+        }
+      }
     ]
   },
   "msg_sales": {
