@@ -1,4 +1,4 @@
-(function(){
+(function($){
   'use strict';
 
   /*
@@ -40,10 +40,10 @@
       reportPanel     = $('#reportPanel'),
       reportPanelTmpl = template.compile(reportPanel.html()),
 
-      basicReport     = $('#basicReport'),
-      basicReportTmpl = template.compile(basicReport.html());
+      actCatTable     = $('#actCatTable'),
+      actCatTableTmpl = template.compile(actCatTable.html());
 
-  var removeItems = [basicPanel, skuTable, infoBlock, reportPanel];
+  var removeItems = [basicPanel, skuTable, infoBlock, reportPanel, actCatTable];
   for(var i=0, x=removeItems.length; i<x; i++) {removeItems[i].remove();}
 
   /*
@@ -154,48 +154,50 @@
   /*
     活动基本指标趋势图基本设置
   */
-  var setBaseChart = function(container, title, category, data){
-    var ifPercentage = /%$/.test(data[0]);
-    var option = {
-      title: {
-        text: title
-      },
-      tooltip: {
-        trigger: 'axis'
-      },
-      toolbox: {
-        show: true,
-        feature: {
-          mark: {show: true},
-          magicType: {show: true, type: ['line', 'bar']},
-          restore: {show: true},
-          saveAsImage: {show: true}
-        }
-      },
-      calculable : true,
-      xAxis : [{
-        type: 'category',
-        boundaryGap : false,
-        data: category
-      }],
-      yAxis: [{
-        type: 'value',
-        axisLabel: {
-          formatter: ifPercentage ? '{value}%' : '{value}'
-        }
-      }],
-      series: [{
-        name: title,
-        type: 'line',
-        smooth: true,
-        itemStyle: {normal: {areaStyle: {type: 'default'}}},
-        data: data.map(function(item){
-          return $.isNumeric(item) ? item : parseFloat(item);
-        })
-      }]
-    };
-    echarts.init(container, 'macarons').setOption(option);
-  };
+  var chartSet = {
+    lineChart: function(container, title, category, data){
+      var ifPercentage = /%$/.test(data[0]);
+      var option = {
+        title: {
+          text: title
+        },
+        tooltip: {
+          trigger: 'axis'
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: {show: true},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable : true,
+        xAxis : [{
+          type: 'category',
+          boundaryGap : false,
+          data: category
+        }],
+        yAxis: [{
+          type: 'value',
+          axisLabel: {
+            formatter: ifPercentage ? '{value}%' : '{value}'
+          }
+        }],
+        series: [{
+          name: title,
+          type: 'line',
+          smooth: true,
+          itemStyle: {normal: {areaStyle: {type: 'default'}}},
+          data: data.map(function(item){
+            return $.isNumeric(item) ? item : parseFloat(item);
+          })
+        }]
+      };
+      echarts.init(container, 'macarons').setOption(option);
+    }
+  }
 
   /* ----------------- split ----------------- */
 
@@ -348,8 +350,10 @@
       2. 活动基本指标
         a. 组装参数
         b. 获取接口数据
-        c. 计算对比活动与默认活动的指标对比增幅
-        d. 渲染基本报告数据表格
+        c. 获取接口数据成功
+        d. 渲染基本报告数据表格 & 趋势图
+        e. 渲染活动销售品类分析 & 分析图
+        f. 渲染活动销售额的占比 & 占比图
     */
     getReport: function(e, obj){
       e.preventDefault();
@@ -373,8 +377,13 @@
         && $.extend(rptParams, {compareid: compareid});
       // b
       $.get(actRptUrl, rptParams)
+        // c
         .done(function(data){
           actRptData = data;
+          spin.removeClass('fa-spin');
+        })
+        // d
+        .done(function(){
           var compareData = actRptData.msg_compare,
               option = {
                 catalog: actCatalog[0].getSelection(),
@@ -385,13 +394,27 @@
                   }),
                   '活动总计'])
               };
-          // c
+          // 计算对比活动与默认活动的指标对比增幅
           var curActIndex = compareData[0],
               cpIndex = compareData.slice(1, compareData.length-1);
-          // d
-          spin.removeClass('fa-spin');
-          pageRender(option, basicReportTmpl, $('#spIndex'));
-        });
+
+          pageRender(option, actCatTableTmpl, $('#actIndexTable'));
+
+          // 基本指标趋势图
+          // $('[data-click=timeAreaChart]').trigger('click');
+        })
+      // e
+      .done(function(){
+        var actCatChartsSet = $('#actCatChartsSet');
+
+        actCatChartsSet.removeClass('hide');
+      })
+      // f
+      .done(function(){
+        var actCatSale = $('#actCatSale');
+
+        actCatSale.removeClass('hide');
+      });
     },
     /*
       3.活动基本指标时间趋势图
@@ -399,7 +422,7 @@
         b. 有指标选中时，创建该 charts 容器，否则就 remove 掉
     */
     timeAreaChart: function(e, self){
-      var baseChartPanel = $('#spBaseChart'),
+      var baseChartPanel = $('#actTimeDriftChart'),
           index = self.data('index'),
           chartContainer = $('#baseChart' + index)[0],
           dataset = actRptData.msg_timetrend[index];
@@ -407,8 +430,8 @@
       self.closest('tr').find(':checked').length > 0 ? baseChartPanel.removeClass('hide') : baseChartPanel.addClass('hide');
       // b
       if(!!!chartContainer && self.is(':checked')) {
-        $('#spBaseChart > .panel-body').append($('<div class="col-xs-6" id="baseChart' + index + '" style="height:300px;"></div>'));
-        setBaseChart(
+        baseChartPanel.find('.panel-body').append($('<div class="col-xs-6 chart" id="baseChart' + index + '"></div>'));
+        chartSet.lineChart(
           $('#baseChart' + index)[0],
           self.data('catalog'),
           dataset.dailydate,
@@ -434,9 +457,4 @@
         skuPage(actMsgData.act_sku, 1, records),
         skuTableTmpl, $('.panel:first>.panel-body'));
   });
-
-  // $('#indexTable').on('click', 'thead input', function(e){
-  //   var i = $(this).attr('id').split('-')[1] - 0 + 1;
-  //   $('#indexTable td:nth-child(' + i + ')').toggleClass('active');
-  // })
-})();
+})(jQuery);

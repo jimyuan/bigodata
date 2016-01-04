@@ -136,18 +136,68 @@
           </div>
         </div>
       </form>
-
-      <div class="panel panel-info" id="spIndex"></div>
+      <!-- 活动基本指标表格 -->
+      <div class="panel panel-info" id="actIndexTable"></div>
       <!-- 活动基本指标时间趋势图 -->
-      <div class="panel panel-info hide" id="spBaseChart">
+      <div class="panel panel-info hide" id="actTimeDriftChart">
         <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动基本指标时间趋势图</div>
         <div class="panel-body"></div>
+      </div>
+      <!-- 活动销售品类分析 -->
+      <div class="panel panel-info hide" id="actCatChartsSet">
+        <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动销售品类分析</div>
+        <div class="panel-body">
+          <form action="">
+            <label class="radio-inline">
+              <input type="radio" name="customer" id="" value="customer_all" checked> 所有购买客户
+            </label>
+            <label class="radio-inline">
+              <input type="radio" name="customer" id="" value="customer_target"> 目标购买客户
+            </label>
+          </form>
+          <hr>
+          <div class="col-xs-6">
+            <h4>活动期间品类销售金额占比</h4>
+            <p>食品，棉品，宝宝内衣是销售金额最大的前3品类</p>
+            <div id="actCatAllChart" class="chart">chart1</div>
+          </div>
+          <div class="col-xs-6">
+            <h4>食品中的品牌销售金额占比</h4>
+            <p>惠氏，大王，帮宝适是食品品类中消费金额占比最高的前3品牌</p>
+            <div id="actCatTargetChart" class="chart">chart2</div>
+          </div>
+          <div class="col-xs-12">
+            <h4>活动期间品类购买人群分布</h4>
+            <p>食品，棉品，外出服是活动期间最受人群欢迎的3大品类。</p>
+            <div id="actDistChart" class="chart">chart3</div>
+          </div>
+          <div class="col-xs-4">
+            <h4>食品品类关联购买人群分布</h4>
+            <p>食品品类中, 82%的客户产生关联消费。</p>
+            <div id="actDriftPeopleChart" class="chart">chart4</div>
+          </div>
+          <div class="col-xs-8">
+            <h4>食品品类 关联购买品类分析</h4>
+            <p> 购买食品的用户，关联购买用户前三的品类为： 宝宝内衣，外出服，棉品；关联购买金额前三的品类为：车床，宝宝内衣，棉品。</p>
+            <div id="actDriftCatagoryChart" class="chart">chart5</div>
+          </div>
+        </div>
+      </div>
+      <!-- 活动销售额占比 -->
+      <div class="panel panel-info hide" id="actCatSale">
+        <div class="panel-heading"><i class="fa fa-area-chart"></i> 活动销售额占比</div>
+        <div class="panel-body">
+          <p>本次活动期间，所有购买人群总共消费2,345,678元，其中短信发送的目标人群消费 469,135，金额占比20%。</p>
+          <p>所有人群购买目标产品总共消费51,389元，其中短信发送的目标人群消费 17,986，金额占比35%。</p>
+          <div class="col-xs-6 chart" id="allPieChart">chart6</div>
+          <div class="col-xs-6 chart" id="targetPieChart">chart7</div>
+        </div>
       </div>
     </div>
   </div>
 </script>
 
-<script type="text/html" id="basicReport">
+<script type="text/html" id="actCatTable">
   <div class="panel-heading"><i class="fa fa-table"></i> 活动基本指标</div>
   <table class="table table-bordered table-hover" id="indexTable">
     <thead>
