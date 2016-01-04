@@ -13,7 +13,9 @@
       num = num.slice(0, num.length - 3);
     }
     result = num + result;
-    return arguments[1] ? result + arguments[1] : result;
+    return arguments[1]
+      ? result + arguments[1]
+      : result;
   });
 
   /*
@@ -40,10 +42,10 @@
       reportPanel     = $('#reportPanel'),
       reportPanelTmpl = template.compile(reportPanel.html()),
 
-      actCatTable     = $('#actCatTable'),
-      actCatTableTmpl = template.compile(actCatTable.html());
+      reportChart     = $('#reportChart'),
+      reportChartTmpl = template.compile(reportChart.html());
 
-  var removeItems = [basicPanel, skuTable, infoBlock, reportPanel, actCatTable];
+  var removeItems = [basicPanel, skuTable, infoBlock, reportPanel, reportChart];
   for(var i=0, x=removeItems.length; i<x; i++) {removeItems[i].remove();}
 
   /*
@@ -196,13 +198,38 @@
         }]
       };
       echarts.init(container, 'macarons').setOption(option);
+    },
+
+    pieChart: function(container, title, data){
+      var option = {
+        tooltip : {
+          trigger: 'item',
+          formatter: "{a} <br/>{b} : {c} ({d}%)"
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        calculable : true,
+        series : [{
+          name: title,
+          type:'pie',
+          radius: '70%',
+          center: ['50%', '50%'],
+          data: data
+        }]
+      };
+      echarts.init(container, 'macarons').setOption(option);
     }
   }
 
   /* ----------------- split ----------------- */
 
   /*
-    活动信息ajax
+    活动信息ajax (API-1)
   */
   $.get(actMsgUrl, actMsgParam)
     .done(function(data){
@@ -350,7 +377,7 @@
       2. 活动基本指标
         a. 组装参数
         b. 获取接口数据
-        c. 获取接口数据成功
+        c. 获取接口数据成功，组装 render 数据
         d. 渲染基本报告数据表格 & 趋势图
         e. 渲染活动销售品类分析 & 分析图
         f. 渲染活动销售额的占比 & 占比图
@@ -377,43 +404,57 @@
         && $.extend(rptParams, {compareid: compareid});
       // b
       $.get(actRptUrl, rptParams)
-        // c
+        // c. 获取接口数据成功，组装 render 数据
         .done(function(data){
           actRptData = data;
           spin.removeClass('fa-spin');
+          $('.form-suggest').siblings().remove();
+
+          var msgSalesData = actRptData.msg_sales;
+          var rpData= {};
+          rpData.compareTable = {
+            catalog: actCatalog[0].getSelection(),
+            compare: actRptData.msg_compare,
+            activity: [].concat.apply([],[
+              actMsgData.data.act_name, actCompare[0].getSelection().map(function(item){
+                return item.act_name;
+              }),
+              '活动总计'])
+          };
+          rpData.actCatSale = {
+            ttl_ttl: msgSalesData.sales_ttl_ttl,
+            tgt_ttl: msgSalesData.sales_target_ttl,
+            ttl_target: msgSalesData.sales_ttl_target,
+            tgt_target: msgSalesData.sales_target_target
+          };
+          $('.form-suggest').after($(reportChartTmpl(rpData)))
         })
-        // d
+        // d. 基本指标趋势图
         .done(function(){
-          var compareData = actRptData.msg_compare,
-              option = {
-                catalog: actCatalog[0].getSelection(),
-                compare: compareData,
-                activity: [].concat.apply([],[
-                  actMsgData.data.act_name, actCompare[0].getSelection().map(function(item){
-                    return item.act_name;
-                  }),
-                  '活动总计'])
-              };
-          // 计算对比活动与默认活动的指标对比增幅
-          var curActIndex = compareData[0],
-              cpIndex = compareData.slice(1, compareData.length-1);
-
-          pageRender(option, actCatTableTmpl, $('#actIndexTable'));
-
-          // 基本指标趋势图
-          // $('[data-click=timeAreaChart]').trigger('click');
+          $('[data-click=timeAreaChart]').trigger('click');
         })
-      // e
+      // 渲染活动销售品类分析 & 分析图
       .done(function(){
         var actCatChartsSet = $('#actCatChartsSet');
 
-        actCatChartsSet.removeClass('hide');
       })
-      // f
+      // f. 活动销售额占比图
       .done(function(){
-        var actCatSale = $('#actCatSale');
+        var msgSalesData = actRptData.msg_sales,
+            allPieChart = $('#allPieChart'),
+            tgtPieChart = $('#tgtPieChart'),
+            allPieChartData = [
+              {value: msgSalesData.sales_ttl_ttl - msgSalesData.sales_ttl_target, name: '非活动人群购买总金额'},
+              {value: msgSalesData.sales_ttl_target, name: '活动人群购买总金额'}
+            ],
+            tgtPieChartData = [
+              {value: msgSalesData.sales_target_target, name: '非活动人群购买目标产品总金额'},
+              {value: msgSalesData.sales_target_ttl - msgSalesData.sales_target_target, name: '活动人群购买目标产品总金额'}
+            ];
 
-        actCatSale.removeClass('hide');
+        chartSet.pieChart(allPieChart[0], '所有购买人群', allPieChartData);
+        chartSet.pieChart(tgtPieChart[0], '目标购买人群', tgtPieChartData);
+
       });
     },
     /*
