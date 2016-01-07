@@ -278,7 +278,7 @@
       ec.setOption(option);
       return ec;
     }
-  }
+  };
 
   /* ----------------- split ----------------- */
 
@@ -485,7 +485,7 @@
             ttl_target: msgSalesData.sales_ttl_target,
             tgt_target: msgSalesData.sales_target_target
           };
-          $('.form-suggest').after($(reportChartTmpl(rpData)))
+          $('.form-suggest').after($(reportChartTmpl(rpData)));
         })
         // d. trigger基本指标趋势图
         .done(function(){
@@ -577,7 +577,7 @@
           text: pieTitle,
           subtext: cats.join(', ') + '是销售金额最大的前 ' + cats.length + ' 品类'
         }
-      }
+      };
 
       // 二级饼图生成方法
       var subPieRender2 = function(index){
@@ -598,15 +598,16 @@
             text: pieTitle + '中的品牌销售金额占比',
             subtext: brands.join(', ') + '是' + pieTitle + '品类中消费金额占比最高的前 '+ brands.length +' 品牌'
           }
-        }
+        };
         chartSet.pieChart($(curTab).find('.chart:eq(1)')[0], catData.title.text, catData);
       };
 
       // 第5张柱状图
       var subChartRender5 = function(index, relation){
-        var index = index || 1,
-            relation = !!!relation ? 'relation' : 'notrelated',
-            comboData = actRptData.msg_customer[curObj][index],
+        index = index || 1;
+        relation = !!!relation ? 'relation' : 'notrelated';
+
+        var comboData = actRptData.msg_customer[curObj][index],
             numbers = comboData.category_analysis_numbers[relation],
             sales = comboData.category_analysis_sales[relation];
 

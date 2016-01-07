@@ -3,7 +3,7 @@
   var $ = gulpLoadPlugins({pattern: '*', lazy: true}),
       _ = {
         app:  'app',
-        dist: 'dist',
+        dist: 'release',
         scss: 'scss',
         tmpl: 'build',
         js:   'app/js',
@@ -101,11 +101,20 @@
       }));
   });
 
+  gulp.task('json', function () {
+    return gulp.src(_.app + '/data/*.json')
+      .pipe($.jsonminify())
+      .pipe(gulp.dest(_.dist + '/data/'))
+      .pipe($.size({
+        title: 'JSON files:'
+      }));
+  });
+
   //|**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //| ~ join & minify css & js
   //'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   gulp.task('html', function() {
-    return gulp.src(['app/*.html'])
+    return gulp.src([_.app + '/*.html'])
       .pipe($.plumber({ errorHandler: handleError}))
       .pipe($.useref.assets())
       .pipe($.if('*.js', $.uglify()))
@@ -145,7 +154,10 @@
   //| ✓ alias
   //'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   gulp.task('test',  ['scsslint', 'jshint']);
-  gulp.task('build', ['test', 'clean', 'image', 'html']);
+  gulp.task('build', ['clean', 'image', 'html', 'json'], function(){
+      return gulp.src(_.app + '/fonts/**/*')
+        .pipe(gulp.dest(_.dist + '/fonts/'));
+  });
 
   //|**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   //| ✓ default
