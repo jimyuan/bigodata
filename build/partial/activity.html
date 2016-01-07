@@ -183,40 +183,27 @@
   <div class="panel panel-info" id="actCatChartsSet">
     <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动销售品类分析</div>
     <div class="panel-body">
-      <form action="">
-        <label class="radio-inline">
-          <input type="radio" name="customer" value="customer_all" checked> 所有购买客户
-        </label>
-        <label class="radio-inline">
-          <input type="radio" name="customer" value="customer_target"> 目标购买客户
-        </label>
-      </form>
-      <hr>
-      <div class="col-xs-6">
-        <h4>活动期间品类销售金额占比</h4>
-        <p>食品，棉品，宝宝内衣是销售金额最大的前3品类</p>
-        <div id="actCatAllChart" class="chart">chart1</div>
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#customer_all" data-click="salesTab">所有购买客户</a></li>
+        <li><a href="#customer_target" data-click="salesTab">目标购买客户</a></li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane clearfix active" id="customer_all">
+          <div class="col-xs-6 chart"></div>
+          <div class="col-xs-6 chart"></div>
+          <div class="col-xs-12 chart" style="height: 500px;"></div>
+          <div class="col-xs-4 chart"></div>
+          <div class="col-xs-8 chart"></div>
+        </div>
+        <div class="tab-pane clearfix" id="customer_target">
+          <div class="col-xs-6 chart"></div>
+          <div class="col-xs-6 chart"></div>
+          <div class="col-xs-12 chart" style="height: 500px;"></div>
+          <div class="col-xs-4 chart"></div>
+          <div class="col-xs-8 chart"></div>
+        </div>
       </div>
-      <div class="col-xs-6">
-        <h4>食品中的品牌销售金额占比</h4>
-        <p>惠氏，大王，帮宝适是食品品类中消费金额占比最高的前3品牌</p>
-        <div id="actCatTargetChart" class="chart">chart2</div>
-      </div>
-      <div class="col-xs-12">
-        <h4>活动期间品类购买人群分布</h4>
-        <p>食品，棉品，外出服是活动期间最受人群欢迎的3大品类。</p>
-        <div id="actDistChart" class="chart">chart3</div>
-      </div>
-      <div class="col-xs-4">
-        <h4>食品品类关联购买人群分布</h4>
-        <p>食品品类中, 82%的客户产生关联消费。</p>
-        <div id="actDriftPeopleChart" class="chart">chart4</div>
-      </div>
-      <div class="col-xs-8">
-        <h4>食品品类 关联购买品类分析</h4>
-        <p> 购买食品的用户，关联购买用户前三的品类为： 宝宝内衣，外出服，棉品；关联购买金额前三的品类为：车床，宝宝内衣，棉品。</p>
-        <div id="actDriftCatagoryChart" class="chart">chart5</div>
-      </div>
+
     </div>
   </div>
   <!-- 活动销售额占比 -->

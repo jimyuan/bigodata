@@ -137,3 +137,17 @@
 .chart {
   height: 300px;
 }
+
+.tab-pane {
+  border: 1px solid $gray-lighter;
+  border-top-width: 0;
+  padding: $line-height-computed;
+  background-color: #fff;
+}
+
+.header-items {
+  padding-right: 0.5em;
+  color: $brand-success;
+  font-style: normal;
+  font-weight: bold;
+}

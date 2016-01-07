@@ -157,14 +157,13 @@
     活动基本指标趋势图基本设置
   */
   var chartSet = {
-    lineChart: function(container, title, category, data){
-      var ifPercentage = /%$/.test(data[0]);
+    lineChart: function(container, data){
+      var ifPercentage = /%$/.test(data.values[0]);
       var option = {
-        title: {
-          text: title
-        },
+        title: data.title,
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          formatter: '{b}: {c}'
         },
         toolbox: {
           show: true,
@@ -179,7 +178,7 @@
         xAxis : [{
           type: 'category',
           boundaryGap : false,
-          data: category
+          data: data.category
         }],
         yAxis: [{
           type: 'value',
@@ -188,19 +187,65 @@
           }
         }],
         series: [{
-          name: title,
+          name: data.title,
           type: 'line',
           smooth: true,
           itemStyle: {normal: {areaStyle: {type: 'default'}}},
-          data: data.map(function(item){
+          data: data.values.map(function(item){
             return $.isNumeric(item) ? item : parseFloat(item);
           })
         }]
-      };
-      echarts.init(container, 'macarons').setOption(option);
+      }, ec;
+      ec = echarts.init(container, 'macarons');
+      ec.setOption(option);
+      return ec;
     },
 
-    pieChart: function(container, title, data){
+    barChart: function(container, data){
+      var option = {
+        title: data.title,
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}: {c}'
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            mark: {show: true},
+            magicType: {show: true, type: ['line', 'bar']},
+            restore: {show: true},
+            saveAsImage: {show: true}
+          }
+        },
+        xAxis: [{
+          type: 'category',
+          data: data.category
+        }],
+        yAxis: [{
+          type: 'value'
+        }],
+        series : [{
+          type: 'bar',
+          data: data.values,
+          markPoint : {
+            data : [
+              {type : 'max', name: '最大值'},
+              {type : 'min', name: '最小值'}
+            ]
+          },
+          markLine : {
+            data : [
+              {type : 'average', name: '平均值'}
+            ]
+          }
+        }]
+      };
+      var ec = echarts.init(container, 'macarons');
+      ec.setOption(option);
+      return ec;
+    },
+
+    pieChart: function(container, title, data, selected){
       var option = {
         tooltip : {
           trigger: 'item',
@@ -213,16 +258,25 @@
             saveAsImage: {show: true}
           }
         },
-        calculable : true,
+        calculable : false,
         series : [{
           name: title,
+          selectedMode: selected ? 'single' : null,
           type:'pie',
-          radius: '70%',
+          radius: '55%',
           center: ['50%', '50%'],
-          data: data
+          data: data.data
         }]
-      };
-      echarts.init(container, 'macarons').setOption(option);
+      }, ec;
+
+      option.title = data.title;
+      if(data.data.length < 3) {
+        option.tooltip = {show: false};
+      }
+
+      ec = echarts.init(container, 'macarons');
+      ec.setOption(option);
+      return ec;
     }
   }
 
@@ -378,9 +432,9 @@
         a. 组装参数
         b. 获取接口数据
         c. 获取接口数据成功，组装 render 数据
-        d. 渲染基本报告数据表格 & 趋势图
-        e. 渲染活动销售品类分析 & 分析图
-        f. 渲染活动销售额的占比 & 占比图
+        d. trigger基本指标趋势图
+        e. 活动销售品类分析图
+        f. 活动销售额占比图
     */
     getReport: function(e, obj){
       e.preventDefault();
@@ -410,8 +464,9 @@
           spin.removeClass('fa-spin');
           $('.form-suggest').siblings().remove();
 
-          var msgSalesData = actRptData.msg_sales;
           var rpData= {};
+
+          // 活动指标表格数据
           rpData.compareTable = {
             catalog: actCatalog[0].getSelection(),
             compare: actRptData.msg_compare,
@@ -421,6 +476,9 @@
               }),
               '活动总计'])
           };
+
+          // 活动销售额占比数据
+          var msgSalesData = actRptData.msg_sales;
           rpData.actCatSale = {
             ttl_ttl: msgSalesData.sales_ttl_ttl,
             tgt_ttl: msgSalesData.sales_target_ttl,
@@ -429,33 +487,32 @@
           };
           $('.form-suggest').after($(reportChartTmpl(rpData)))
         })
-        // d. 基本指标趋势图
+        // d. trigger基本指标趋势图
         .done(function(){
           $('[data-click=timeAreaChart]').trigger('click');
         })
-      // 渲染活动销售品类分析 & 分析图
-      .done(function(){
-        var actCatChartsSet = $('#actCatChartsSet');
+        // e. 活动销售品类分析图
+        .done(function(){
+          $('[href=#customer_all]').trigger('click');
+        })
+        // f. 活动销售额占比图
+        .done(function(){
+          var msgSalesData = actRptData.msg_sales,
+              allPieChart = $('#allPieChart'),
+              tgtPieChart = $('#tgtPieChart'),
+              allPieChartData = [
+                {value: msgSalesData.sales_ttl_ttl - msgSalesData.sales_ttl_target, name: '非活动人群购买总金额'},
+                {value: msgSalesData.sales_ttl_target, name: '活动人群购买总金额'}
+              ],
+              tgtPieChartData = [
+                {value: msgSalesData.sales_target_target, name: '非活动人群购买目标产品总金额'},
+                {value: msgSalesData.sales_target_ttl - msgSalesData.sales_target_target, name: '活动人群购买目标产品总金额'}
+              ];
 
-      })
-      // f. 活动销售额占比图
-      .done(function(){
-        var msgSalesData = actRptData.msg_sales,
-            allPieChart = $('#allPieChart'),
-            tgtPieChart = $('#tgtPieChart'),
-            allPieChartData = [
-              {value: msgSalesData.sales_ttl_ttl - msgSalesData.sales_ttl_target, name: '非活动人群购买总金额'},
-              {value: msgSalesData.sales_ttl_target, name: '活动人群购买总金额'}
-            ],
-            tgtPieChartData = [
-              {value: msgSalesData.sales_target_target, name: '非活动人群购买目标产品总金额'},
-              {value: msgSalesData.sales_target_ttl - msgSalesData.sales_target_target, name: '活动人群购买目标产品总金额'}
-            ];
+          chartSet.pieChart(allPieChart[0], '所有购买人群', {data: allPieChartData});
+          chartSet.pieChart(tgtPieChart[0], '目标购买人群', {data: tgtPieChartData});
 
-        chartSet.pieChart(allPieChart[0], '所有购买人群', allPieChartData);
-        chartSet.pieChart(tgtPieChart[0], '目标购买人群', tgtPieChartData);
-
-      });
+        });
     },
     /*
       3.活动基本指标时间趋势图
@@ -474,15 +531,188 @@
         baseChartPanel.find('.panel-body').append($('<div class="col-xs-6 chart" id="baseChart' + index + '"></div>'));
         chartSet.lineChart(
           $('#baseChart' + index)[0],
-          self.data('catalog'),
-          dataset.dailydate,
-          dataset.dailydata
+          {
+            title: {
+              text: self.data('catalog')
+            },
+            category: dataset.dailydate,
+            values:   dataset.dailydata
+          }
         );
       } else if(!!chartContainer && !self.is(':checked')) {
         chartContainer.remove();
       } else {
         return;
       }
+    },
+
+    /*
+      4. 所有/目标客户分析 tab 切换
+         (因 dom 隐藏时 echarts 无法 render 图表，因此只有当 dom 显现时才做图表 render 操作)
+        a. tab 切换
+        b. 销售金额占比 pie chart render
+    */
+    salesTab: function(e, self){
+      e.preventDefault();
+      // a
+      var id = self.attr('href'), curTab = $(id);
+      self.parent().addClass('active').siblings().removeClass('active');
+      $('.tab-pane').removeClass('active');
+      curTab.addClass('active');
+
+      // b
+      var i, x, catsData, cats,
+          pieChart = [], curObj = id.slice(1),
+          custData = actRptData.msg_category[curObj],
+          custName = custData[0].sales_name,
+          custValue= custData[0].sales_value,
+          pieTitle = '活动期间品类销售金额占比';
+      for(i = 0, x = custName.length; i < x; i++) {
+        pieChart.push({name: custName[i], value: custValue[i]});
+      }
+      cats = custName.slice(0, 3);
+      catsData = {
+        data: pieChart,
+        title: {
+          text: pieTitle,
+          subtext: cats.join(', ') + '是销售金额最大的前 ' + cats.length + ' 品类'
+        }
+      }
+
+      // 二级饼图生成方法
+      var subPieRender2 = function(index){
+        var pieChart = [], catData, brands,
+            custData = actRptData.msg_category[curObj], i, x,
+            subBrandData = index > 0 ? custData[index] : custData[1],
+            subBrandName = subBrandData.sales_brandname,
+            subBrandValue= subBrandData.sales_brandvalue,
+            pieTitle = subBrandData.sales_name;
+
+        for(i = 0, x = subBrandName.length; i < x; i++) {
+          pieChart.push({name: subBrandName[i], value: subBrandValue[i]});
+        }
+        brands = subBrandName.slice(0, 3);
+        catData = {
+          data: pieChart,
+          title: {
+            text: pieTitle + '中的品牌销售金额占比',
+            subtext: brands.join(', ') + '是' + pieTitle + '品类中消费金额占比最高的前 '+ brands.length +' 品牌'
+          }
+        }
+        chartSet.pieChart($(curTab).find('.chart:eq(1)')[0], catData.title.text, catData);
+      };
+
+      // 第5张柱状图
+      var subChartRender5 = function(index, relation){
+        var index = index || 1,
+            relation = !!!relation ? 'relation' : 'notrelated',
+            comboData = actRptData.msg_customer[curObj][index],
+            numbers = comboData.category_analysis_numbers[relation],
+            sales = comboData.category_analysis_sales[relation];
+
+          echarts.init($(curTab).find('.chart:eq(4)')[0], 'macarons')
+            .setOption({
+              title: {
+                text: comboData.category + '品类关联购买品类分析'
+              },
+              tooltip: {
+                  trigger: 'axis'
+              },
+              toolbox: {
+                show : true,
+                feature : {
+                  restore : {show: true},
+                  saveAsImage : {show: true}
+                }
+              },
+              legend: {
+                data:['关联消费人数','关联消费金额']
+              },
+              xAxis: [{
+                type: 'category',
+                data: actRptData.msg_customer[curObj][0].category
+              }],
+              yAxis: [
+                {
+                  type: 'value',
+                  name: '人数'
+                },
+                {
+                  type: 'value',
+                  name: '金额'
+                }
+              ],
+              series: [
+                {
+                  name: '关联消费人数',
+                  type: 'bar',
+                  data: numbers
+                },
+                {
+                  name: '关联消费金额',
+                  type: 'line',
+                  yAxisIndex: 1,
+                  data: sales
+                }
+              ]
+            });
+      };
+
+      // 第4张饼图生成方法
+      var subPieRender4 = function(index){
+        var custData = actRptData.msg_customer[curObj],
+            subCatData = index > 0 ? custData[index] : custData[1],
+            category = subCatData.category,
+            relation = subCatData.population_distribution.relation,
+            notrelated = subCatData.population_distribution.notrelated,
+            percentage = (relation / (relation + notrelated) * 100).toFixed(2) + '%',
+            pieData = {
+              title: {
+                text: category + '品类关联购买人群分布',
+                subtext: category + '品类中, '+ percentage +'的客户产生关联消费。'
+              },
+              data: [
+                {name:'关联购买人群', value: relation},
+                {name:'未关联购买人群', value: notrelated}
+              ]
+            };
+        var ec = chartSet.pieChart($(curTab).find('.chart:eq(3)')[0], category + '品类', pieData, true);
+        ec.on(echarts.config.EVENT.PIE_SELECTED, function(param){
+          subChartRender5(index, param.selected[0].indexOf(true));
+        });
+        subChartRender5(index);
+      };
+
+
+      // 第一张饼图
+      !window[id] &&
+      chartSet.pieChart($(curTab).find('.chart:eq(0)')[0], pieTitle[curObj], catsData, true)
+        .on(echarts.config.EVENT.PIE_SELECTED, function(param){
+          subPieRender2(param.selected[0].indexOf(true) + 1);
+        });
+
+      !window[id] && subPieRender2();
+      !window[id] && subPieRender4();
+
+      // 第三张柱状图
+      var customer = actRptData.msg_customer[curObj];
+      cats = customer[0].category.slice(0, 3);
+      var distData = {
+        title: {
+          text: '活动期间品类购买人群分布',
+          subtext: cats.join(', ') + '是活动期间最受人群欢迎的 '+ cats.length +' 大品类'
+        },
+        category: customer[0].category,
+        values:   customer[0].number
+      };
+      !window[id] && chartSet.barChart($(curTab).find('.chart:eq(2)')[0], distData)
+        .on(echarts.config.EVENT.CLICK, function(param){
+          // console.log(param);
+          subPieRender4(param.dataIndex + 1);
+        });
+
+
+      window[id]=true;
     }
   };
 
