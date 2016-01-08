@@ -12,6 +12,36 @@
     <div class="panel-heading"><i class="fa fa-bullhorn"></i> {{ act_describe }}</div>
     <div class="panel-body"></div>
   </div>
+  <!-- info block -->
+  <div class="block-area clearfix">
+    <div class="col-xs-4 block-expect">
+      <i class="fa fa-users"></i>
+      <div class="content">
+        <h3>活动预测</h3>
+        <p>本次活动预测有</p>
+         <h3>{{ estimate_usercount | dataFormat }} <small> 人参与</small></h3>
+      </div>
+    </div>
+    <div class="col-xs-8 block-sms">
+      <i class="fa fa-envelope-o"></i>
+      <div class="content text-center">
+        <h3>短信触达率</h3>
+        <h1>90%</h1>
+      </div>
+      <div class="content">
+        <p>
+          <strong>发送时间:</strong> 2015-10-22 10:00:00
+        </p>
+        <p>
+          <strong>发送数量:</strong> 5449 条
+          <strong>成功发送:</strong> 4888 条
+        </p>
+        <p>
+          <strong>发送失败:</strong> 88 条
+        </p>
+      </div>
+    </div>
+  </div>
 </script>
 
 <script type="text/html" id="skuTable">
@@ -67,39 +97,6 @@
     </ul>
   </nav>
   {{ /if }}
-</script>
-
-<script type="text/html" id="infoBlock">
-  <!-- info block -->
-  <div class="block-area clearfix">
-    <div class="col-xs-4 block-expect">
-      <i class="fa fa-users"></i>
-      <div class="content">
-        <h3>活动预测</h3>
-        <p>本次活动预测有</p>
-         <h3>{{ estimate_usercount | dataFormat }} <small> 人参与</small></h3>
-      </div>
-    </div>
-    <div class="col-xs-8 block-sms">
-      <i class="fa fa-envelope-o"></i>
-      <div class="content text-center">
-        <h3>短信触达率</h3>
-        <h1>90%</h1>
-      </div>
-      <div class="content">
-        <p>
-          <strong>发送时间:</strong> 2015-10-22 10:00:00
-        </p>
-        <p>
-          <strong>发送数量:</strong> 5449 条
-          <strong>成功发送:</strong> 4888 条
-        </p>
-        <p>
-          <strong>发送失败:</strong> 88 条
-        </p>
-      </div>
-    </div>
-  </div>
 </script>
 
 <script type="text/html" id="reportPanel">
@@ -212,8 +209,7 @@
     <div class="panel-body">
       <p>本次活动期间，所有购买人群总共消费 {{ actCatSale.ttl_ttl | dataFormat }} 元，其中短信发送的目标人群消费 {{ actCatSale.ttl_target  | dataFormat }}，金额占比 {{ (actCatSale.ttl_target / actCatSale.ttl_ttl * 100).toFixed(2) }}% 。</p>
       <p>所有人群购买目标产品总共消费 {{ actCatSale.tgt_ttl | dataFormat }} 元，其中短信发送的目标人群消费 {{ actCatSale.tgt_target  | dataFormat }}，金额占比 {{ (actCatSale.tgt_target / actCatSale.tgt_ttl * 100).toFixed(2) }}%。</p>
-      <div class="col-xs-6 chart" id="allPieChart">chart6</div>
-      <div class="col-xs-6 chart" id="tgtPieChart">chart7</div>
+      <div class="col-xs-12 chart" id="salesPieChart">chart6</div>
     </div>
   </div>
 </script>
