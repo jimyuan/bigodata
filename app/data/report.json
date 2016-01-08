@@ -363,38 +363,20 @@
           "relation": 10,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "棉品",
@@ -402,38 +384,20 @@
           "relation": 20,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "外出服",
@@ -441,38 +405,20 @@
           "relation": 30,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "宝宝内衣",
@@ -480,38 +426,20 @@
           "relation": 40,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "鞋子",
@@ -519,38 +447,20 @@
           "relation": 50,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       }
     ],
     "customer_target": [
@@ -576,38 +486,20 @@
           "relation": 10,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "棉品",
@@ -615,38 +507,20 @@
           "relation": 20,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "外出服",
@@ -654,38 +528,20 @@
           "relation": 30,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "宝宝内衣",
@@ -693,38 +549,20 @@
           "relation": 40,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       },
       {
         "category": "鞋子",
@@ -732,38 +570,20 @@
           "relation": 50,
           "notrelated": 80
         },
-        "category_analysis_numbers": {
-          "relation": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ],
-          "notrelated": [
-            32,
-            33,
-            30,
-            50,
-            12
-          ]
-        },
-        "category_analysis_sales": {
-          "relation": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ],
-          "notrelated": [
-            565,
-            335,
-            125,
-            412,
-            205
-          ]
-        }
+        "category_analysis_numbers": [
+          32,
+          33,
+          30,
+          50,
+          12
+        ],
+        "category_analysis_sales": [
+          565,
+          335,
+          125,
+          412,
+          205
+        ]
       }
     ]
   },

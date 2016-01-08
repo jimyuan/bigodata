@@ -53,6 +53,26 @@
             data: ccData.values
           }]
         }
+      },
+      pieOpts: function(pieData){
+        return {
+          title: pieData.title || {show: false},
+          tooltip : {
+            trigger: 'item',
+            formatter: '{b}: {c} ({d}%)'
+          },
+          toolbox: {
+            show: true,
+            feature: {
+              restore: {show: true},
+              saveAsImage: {show: true}
+            }
+          },
+          series : [{
+            type: 'pie',
+            radius: '55%'
+          }]
+        }
       }
     },
 
