@@ -311,6 +311,7 @@
           }
           ec = echarts.init(salesPieChart[0]);
           ec.setOption(pieOpt);
+          $(window).on('resize', ec.resize);
         });
     },
     /*
@@ -352,6 +353,7 @@
         option.xAxis[0].boundaryGap = false;
         ec = echarts.init($('#baseChart' + index)[0], 'macarons');
         ec.setOption(option);
+        $(window).on('resize', ec.resize);
       } else if(!!container && !self.is(':checked')) {
         container.remove();
       } else {
@@ -406,6 +408,7 @@
           ec.on('pieSelected', function(param){
             subPieRender2(param.selected[0].indexOf(true) + 1);
           });
+          $(window).on('resize', ec.resize);
         }
 
         // 第2张饼图
@@ -429,6 +432,7 @@
           $.extend(pieOpt.series[0], {data: pieData});
           ec = echarts.init($(curTab).find('.chart:eq(1)')[0]);
           ec.setOption(pieOpt);
+          $(window).on('resize', ec.resize);
         };
 
         // 第3张柱状图
@@ -472,6 +476,7 @@
             subPieRender4(param.dataIndex + 1);
             subBarRender5(param.dataIndex + 1);
           });
+          $(window).on('resize', ec.resize);
         }
 
         // 第4张饼图生成方法
@@ -498,6 +503,7 @@
 
           ec = echarts.init($(curTab).find('.chart:eq(3)')[0]);
           ec.setOption(pieOpt);
+          $(window).on('resize', ec.resize);
         };
 
         // 第5张柱状图
@@ -525,6 +531,7 @@
           };
           ec = echarts.init($(curTab).find('.chart:eq(4)')[0], 'macarons');
           ec.setOption(dataOpts);
+          $(window).on('resize', ec.resize);
         };
 
         subPieRender1();
