@@ -13,13 +13,15 @@
     rptParams: 活动报告数据请求参数
     actMsgData: 活动基本数据
     actRptData: 活动报告数据
+    reRenderChts: 标记活动销售品类分析中的charts是否需要重绘
   */
   var actid = Page.request('actid') || 1,
       actMsgUrl = 'data/event.json',
       actMsgParam = {type: 'GetActMsg', actid: actid || 1},
       actRptUrl = 'data/report.json',
       rptParams = {},
-      actMsgData, actRptData;
+      actMsgData, actRptData,
+      reFrashCatCharts;
 
   /*
     Suggest option 设置：
@@ -266,7 +268,10 @@
             tgt_target: msgSalesData.sales_target_target
           };
           $('.form-suggest').after($(render['reportChart'](rpData)));
-          window[$('li.active > a').attr('href')] = false;
+          reFrashCatCharts = {
+            '#customer_all': true,
+            '#customer_target': true
+          };
         })
         // d. trigger基本指标趋势图
         .done(function(){
@@ -281,7 +286,6 @@
           var pieOpt, ec, sample,
               msgSalesData = actRptData.msg_sales,
               salesPieChart = $('#salesPieChart'),
-              // tgtPieChart = $('#tgtPieChart'),
               allPieChartData = [
                 {value: msgSalesData.sales_ttl_ttl - msgSalesData.sales_ttl_target, name: '非活动人群购买总金额'},
                 {value: msgSalesData.sales_ttl_target, name: '活动人群购买总金额'}
@@ -373,7 +377,7 @@
       curTab.addClass('active');
 
       // b
-      if(!window[id]) {
+      if(reFrashCatCharts[id]) {
         var cateData = actRptData.msg_category[symbol],
             custData = actRptData.msg_customer[symbol];
 
@@ -529,7 +533,7 @@
         subPieRender4();
         subBarRender5();
       }
-      window[id] = true;
+      reFrashCatCharts[id] = false;
     }
   };
 
