@@ -22,8 +22,7 @@
         return {
           title: ccData.title || {show: false},
           tooltip: {
-            trigger: 'axis',
-            formatter: '{a}<br>{b}: {c}'
+            trigger: 'axis'
           },
           toolbox: {
             show: true,
@@ -50,7 +49,8 @@
                 areaStyle: {type: 'default'}
               }
             },
-            data: ccData.values
+            data: ccData.values,
+            barMaxWidth: 50
           }]
         }
       },
@@ -70,7 +70,7 @@
           },
           series : [{
             type: 'pie',
-            radius: '55%'
+            radius: '65%'
           }]
         }
       }

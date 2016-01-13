@@ -17,7 +17,7 @@
   */
   var actid = Page.request('actid') || 1,
       actMsgUrl = 'data/event.json',
-      actMsgParam = {type: 'GetActMsg', actid: actid || 1},
+      actMsgParam = {type: 'GetActMsg', actid: actid},
       actRptUrl = 'data/report.json',
       rptParams = {},
       actMsgData, actRptData,
@@ -57,7 +57,7 @@
       m === 0 && _arr.push([]);
       _arr[f][m] = data[i];
     }
-    return $.extend(option, {data: _arr[page], datas: _arr});
+    return $.extend(option, {datas: _arr});
   };
 
   /*
@@ -339,7 +339,7 @@
       // b
       if(!!!container && self.is(':checked')) {
         $bcPanel.find('.panel-body')
-          .append($('<div class="col-xs-6 chart" id="baseChart' + index + '"></div>'));
+          .append($('<div class="col-xs-6 chart-time-area" id="baseChart' + index + '"></div>'));
 
         var percentage = /%$/.test(dataset.dailydata[0]);
         if(percentage) {
@@ -523,11 +523,11 @@
             {type: 'value', name: '金额'}
           ];
           dataOpts.series = [
-            {name: '关联消费人数', type: 'bar', data: numbers},
-            {name: '关联消费金额', type: 'line', data: sales, yAxisIndex: 1}
+            {name: '人数', type: 'bar', data: numbers, barMaxWidth: 50},
+            {name: '金额', type: 'line', data: sales, yAxisIndex: 1}
           ];
           dataOpts.legend = {
-            data:['关联消费人数','关联消费金额']
+            data:['人数','金额']
           };
           ec = echarts.init($(curTab).find('.chart:eq(4)')[0], 'macarons');
           ec.setOption(dataOpts);
