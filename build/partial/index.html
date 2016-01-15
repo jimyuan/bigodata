@@ -57,7 +57,7 @@
       <span>条记录</span>
     </div>
   </form>
-  <table class="table table-bordered table-hover">
+  <table class="table table-bordered table-hover table-fixed">
     <thead>
       <tr>
         <td>商品编码</td>
@@ -65,7 +65,7 @@
       </tr>
     </thead>
     <tbody>
-      {{ each data }}
+      {{ each datas[page] }}
       <tr>
         <td>{{ $value.objid }}</td>
         <td>{{ $value.objtext }}</td>
@@ -141,7 +141,7 @@
   <!-- 活动基本指标表格 -->
   <div class="panel panel-info" id="actIndexTable">
     <div class="panel-heading"><i class="fa fa-table"></i> 活动基本指标</div>
-    <table class="table table-bordered table-hover table-index">
+    <table class="table table-bordered table-hover table-index table-fixed">
       <thead>
         <tr>
           <td></td>
@@ -188,14 +188,14 @@
         <div class="tab-pane clearfix active" id="customer_all">
           <div class="col-xs-6 chart"></div>
           <div class="col-xs-6 chart"></div>
-          <div class="col-xs-12 chart" style="height: 500px;"></div>
+          <div class="col-xs-12 chart"></div>
           <div class="col-xs-4 chart"></div>
           <div class="col-xs-8 chart"></div>
         </div>
         <div class="tab-pane clearfix" id="customer_target">
           <div class="col-xs-6 chart"></div>
           <div class="col-xs-6 chart"></div>
-          <div class="col-xs-12 chart" style="height: 500px;"></div>
+          <div class="col-xs-12 chart"></div>
           <div class="col-xs-4 chart"></div>
           <div class="col-xs-8 chart"></div>
         </div>

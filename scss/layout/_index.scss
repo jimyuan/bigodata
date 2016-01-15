@@ -108,16 +108,18 @@
 }
 
 .table-index {
-  table-layout: fixed;
-
-  thead {
-    background-color: transparent;
+  tbody td:first-child {
+    background-color: lighten($gray-lighter, 5%);
   }
 
   label {
     display: block;
     cursor: pointer;
   }
+}
+
+.table-fixed {
+  table-layout: fixed;
 }
 
 .over,
@@ -134,8 +136,12 @@
   }
 }
 
-.chart {
+.chart-time-area {
   height: 300px;
+}
+
+.chart {
+  height: 500px;
 }
 
 .tab-pane {
