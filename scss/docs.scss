@@ -26,5 +26,7 @@ $brand-danger:          #d15b47;
 /* docs style */
 @import 'components/btn-app';
 @import 'components/panel';
+@import 'components/misc';
 
-@import 'layout/index';
+@import 'layout/mbs';
+@import 'layout/verify';

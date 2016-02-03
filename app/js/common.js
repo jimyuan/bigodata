@@ -2,7 +2,15 @@
   'use strict';
 
   window.Page = {
+    api: {
+      mbsInfo: 'http://115.28.83.130:16081/ops_activityreport',
+      mbsReport: 'http://115.28.83.130:16081/ops_activityreport',
+      verifyInfo: 'data/verify-1.json'
+    },
     settings: {
+      // status text
+      status: ['暂存','初始','等待','运行','取消','删除','完成','异常','失败','暂停','等待','名单生成完成','等待审核','驳回','批准','等待','执行中','生成中','推送','成功','失败','暂停', '生成中'],
+
       // suggest default options
       suggest: {
         allowFreeEntries: false,

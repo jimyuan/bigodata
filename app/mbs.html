@@ -1,0 +1,254 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>BigoData Admin platform</title>
+    <meta name="description" content="BigoData Admin platform.">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- build:css css/docs.css -->
+    <link rel="stylesheet" href="css/docs.css">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../bower_components/magicsuggest/magicsuggest.css">
+    <!-- endbuild -->
+
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <script src="//cdn.bootcss.com/json3/3.3.2/json3.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <script type="text/html" id="basicPanel">
+        <!-- basic panel -->
+        <h2 class="mbs-h2 clearfix">
+          <button class="btn btn-app btn-ok pull-left">
+            <i class="fa fa-check"></i> {{ status }}
+          </button>
+          {{ act_name }}
+          <small>活动时间: {{ act_begindate }} 至 {{ act_enddate }}  申请人: {{ act_appname }}  审核者: {{ act_pzname }}  活动编码: {{ act_id }}</small>
+        </h2>
+        <div class="panel panel-primary">
+          <div class="panel-heading"><i class="fa fa-bullhorn"></i> {{ act_describe }}</div>
+          <div class="panel-body"></div>
+        </div>
+        <!-- info block -->
+        <div class="block-area clearfix">
+          <div class="col-xs-4 block-expect">
+            <i class="fa fa-users"></i>
+            <div class="content">
+              <h3>活动预测</h3>
+              <p>本次活动预测有</p>
+               <h3>{{ estimate_usercount | dataFormat }} <small> 人参与</small></h3>
+            </div>
+          </div>
+          <div class="col-xs-8 block-sms">
+            <i class="fa fa-envelope-o"></i>
+            <div class="content text-center">
+              <h3>短信触达率</h3>
+              <h1>90%</h1>
+            </div>
+            <div class="content">
+              <p>
+                <strong>发送时间:</strong> 2015-10-22 10:00:00
+              </p>
+              <p>
+                <strong>发送数量:</strong> 5449 条
+                <strong>成功发送:</strong> 4888 条
+              </p>
+              <p>
+                <strong>发送失败:</strong> 88 条
+              </p>
+            </div>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html" id="skuTable">
+        <!-- sku table -->
+        <form action="#" class="form-inline">
+          <div class="form-group">
+            <span>每页显示</span>
+            <select  class="form-control" id="pageSetting">
+              {{ each [5,10,15] }}
+              <option value="{{ $value }}"{{ if records == $value }} selected{{ /if }}>{{ $value }}</option>
+              {{ /each }}
+            </select>
+            <span>条记录</span>
+          </div>
+        </form>
+        <table class="table table-bordered table-hover table-fixed">
+          <thead>
+            <tr>
+              <td>商品编码</td>
+              <td>商品名称</td>
+            </tr>
+          </thead>
+          <tbody>
+            {{ each datas[page] }}
+            <tr>
+              <td>{{ $value.objid }}</td>
+              <td>{{ $value.objtext }}</td>
+            </tr>
+            {{ /each }}
+          </tbody>
+        </table>
+        <div class="pull-left">
+          第 {{ page + 1 }} / {{ pages }} 页，共有记录 {{ totle }} 条
+        </div>
+        {{ if pages > 1 }}
+        <nav class="pull-right">
+          <ul class="pagination">
+            <li>
+              <a href="-1" data-click="turnPage"><span>&laquo;</span></a>
+            </li>
+            {{ each datas }}
+            {{ if page == $index }}
+            <li class="active">
+            {{ else }}
+            <li>
+            {{ /if }}
+              <a href="{{ $index + 1 }}" data-click="turnPage">{{ $index + 1 }}</a>
+            </li>
+            {{ /each }}
+            <li>
+              <a href="+1" data-click="turnPage"><span>&raquo;</span></a>
+            </li>
+          </ul>
+        </nav>
+        {{ /if }}
+      </script>
+
+      <script type="text/html" id="reportPanel">
+        <!-- report panel -->
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <i class="fa fa-file-text-o"></i> 活动报告
+          </div>
+          <div class="panel-body">
+            <form class="form-horizontal form-suggest">
+              <div class="form-group">
+                <label for="storeFront" class="col-xs-2 control-label">选择店铺：</label>
+                <div class="col-xs-10">
+                  <input type="text" class="form-control" id="storeFront">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="baseCatalog" class="col-xs-2 control-label">选择基本指标：</label>
+                <div class="col-xs-10">
+                  <input type="text" class="form-control" id="baseCatalog">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="compareEvent" class="col-xs-2 control-label">添加对比活动：</label>
+                <div class="col-xs-10">
+                  <input type="text" class="form-control" id="compareEvent">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <button class="btn btn-primary" data-click="getReport">
+                    <i class="fa fa-refresh"></i>
+                    确定</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </script>
+
+      <script type="text/html" id="reportChart">
+        <!-- 活动基本指标表格 -->
+        <div class="panel panel-info" id="actIndexTable">
+          <div class="panel-heading"><i class="fa fa-table"></i> 活动基本指标</div>
+          <table class="table table-bordered table-hover table-index table-fixed">
+            <thead>
+              <tr>
+                <td></td>
+                {{ each compareTable.catalog }}
+                <td>
+                  <label for="col-{{ $value.objid }}">
+                    <input type="checkbox" id="col-{{ $value.objid }}" data-click="timeAreaChart" data-index="{{$index}}" data-catalog="{{$value.objtext}}"> {{ $value.objtext }}
+                  </label>
+                </td>
+                {{ /each }}
+              </tr>
+            </thead>
+            <tbody>
+              {{ each compareTable.activity }}
+              <tr>
+                <td>{{ $value }}</td>
+                {{ each compareTable.compare[$index] as val i }}
+                <td>
+                  {{ val | dataFormat }}
+                  {{ if $index > 0 && $index < compareTable.activity.length - 1 }}
+                  {{ (compareTable.compare[0][i] - val) / val * 100 | rateFormat }}
+                  {{ /if }}
+                </td>
+                {{ /each }}
+              </tr>
+              {{ /each }}
+            </tbody>
+          </table>
+        </div>
+        <!-- 活动基本指标时间趋势图 -->
+        <div class="panel panel-info" id="actTimeDriftChart">
+          <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动基本指标时间趋势图</div>
+          <div class="panel-body"></div>
+        </div>
+        <!-- 活动销售品类分析 -->
+        <div class="panel panel-info" id="actCatChartsSet">
+          <div class="panel-heading"><i class="fa fa-area-chart"></i>  活动销售品类分析</div>
+          <div class="panel-body">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#customer_all" data-click="salesTab">所有购买客户</a></li>
+              <li><a href="#customer_target" data-click="salesTab">目标购买客户</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane clearfix active" id="customer_all">
+                <div class="col-xs-6 chart"></div>
+                <div class="col-xs-6 chart"></div>
+                <div class="col-xs-12 chart"></div>
+                <div class="col-xs-4 chart"></div>
+                <div class="col-xs-8 chart"></div>
+              </div>
+              <div class="tab-pane clearfix" id="customer_target">
+                <div class="col-xs-6 chart"></div>
+                <div class="col-xs-6 chart"></div>
+                <div class="col-xs-12 chart"></div>
+                <div class="col-xs-4 chart"></div>
+                <div class="col-xs-8 chart"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- 活动销售额占比 -->
+        <div class="panel panel-info" id="actCatSale">
+          <div class="panel-heading"><i class="fa fa-area-chart"></i> 活动销售额占比</div>
+          <div class="panel-body">
+            <p>本次活动期间，所有购买人群总共消费 {{ actCatSale.ttl_ttl | dataFormat }} 元，其中短信发送的目标人群消费 {{ actCatSale.ttl_target  | dataFormat }} 元，金额占比 {{ (actCatSale.ttl_target / actCatSale.ttl_ttl * 100).toFixed(2) }}% 。</p>
+            <p>所有人群购买目标产品总共消费 {{ actCatSale.tgt_ttl | dataFormat }} 元，其中短信发送的目标人群消费 {{ actCatSale.tgt_target  | dataFormat }} 元，金额占比 {{ (actCatSale.tgt_target / actCatSale.tgt_ttl * 100).toFixed(2) }}%。</p>
+            <div class="col-xs-12 chart" id="salesPieChart">chart6</div>
+          </div>
+        </div>
+      </script>
+    </div>
+
+    <!-- build:js js/common.js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/magicsuggest/magicsuggest.js"></script>
+    <script src="../bower_components/artTemplate/dist/template-debug.js"></script>
+    <script src="../bower_components/echarts/build/source/echarts-all.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/tmpl-helper.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/mbs-report.js -->
+    <script src="js/mbs-report.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

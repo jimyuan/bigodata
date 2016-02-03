@@ -58,13 +58,13 @@
   //| ~ render template from html file
   //'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
   gulp.task('static', function() {
-    return gulp.src([_.tmpl + '/partial/**/*.html'])
-      .pipe($.plumber())
-      .pipe($.fileWrapper(_.tmpl + '/layout.html'))
-      .pipe(gulp.dest(_.app + '/'))
-      .pipe($.size({
-        title: 'HTML files:'
-      }));
+    // return gulp.src([_.tmpl + '/partial/**/*.html'])
+    //   .pipe($.plumber())
+    //   .pipe($.fileWrapper(_.tmpl + '/layout.html'))
+    //   .pipe(gulp.dest(_.app + '/'))
+    //   .pipe($.size({
+    //     title: 'HTML files:'
+    //   }));
   });
 
   //|**~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,7 +133,7 @@
       // Watch scss files
       gulp.watch(_.scss + '/**/*.scss', ['scss']);
       // Watch template files
-      gulp.watch([_.tmpl + '/**/*.html'], ['static']);
+      // gulp.watch([_.tmpl + '/**/*.html'], ['static']);
       gulp.watch([
         _.js  + '/**/*.js',
         _.app + '/*.html',

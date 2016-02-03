@@ -1,0 +1,29 @@
+@charset 'utf-8';
+
+.container {
+  width: 100%;
+  padding: $line-height-computed;
+}
+
+.chart-time-area {
+  height: 300px;
+}
+
+.chart {
+  height: 500px;
+}
+
+/* 活动概况头部 */
+.mbs-h2 {
+  margin-top: 0;
+
+  > .btn-app {
+    margin-right: $line-height-computed;
+  }
+
+  > small {
+    display: block;
+    font-size: 14px;
+    line-height: 2.5;
+  }
+}

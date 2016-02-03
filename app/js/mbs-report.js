@@ -15,11 +15,11 @@
     actRptData: 活动报告数据
     reRenderChts: 标记活动销售品类分析中的charts是否需要重绘
   */
-  var actid = Page.request('actid') || 1,
-      actMsgUrl = 'data/event.json',
+  var actid = Page.request('actid') || 8,
+      actMsgUrl = Page.api.mbsInfo,
       actMsgParam = {type: 'GetActMsg', actid: actid},
-      actRptUrl = 'data/report.json',
-      rptParams = {},
+      actRptUrl = Page.api.mbsReport,
+      rptParams = {type: 'GetActReport'},
       actMsgData, actRptData,
       reFrashCatCharts;
 
@@ -78,19 +78,18 @@
     活动信息ajax (API-1)
     获取活动信息 API 数据进行第一部分页面渲染
   */
-  $.get(actMsgUrl, actMsgParam)
+  $.post(actMsgUrl, actMsgParam)
     .done(function(data){
-      actMsgData = data;
-
+      actMsgData = $.parseJSON(data);
       var basicData = actMsgData.data,
           skuData = actMsgData.act_sku,
-          _html   = render['basicPanel'](basicData) + render['reportPanel']();
+          _html   = render['basicPanel'](basicData, {status: Page.settings.status[basicData.act_status]}) + render['reportPanel']();
 
       $('.container').html(_html);
       $sku = $('.panel:first>.panel-body');
       $sku.html(render['skuTable'](skuPage(actMsgData.act_sku)));
     })
-    .done(function(d){
+    .done(function(){
       /*
         活动报告可选项设置
         1. suggest 默认值选择
@@ -113,8 +112,10 @@
             displayField: 'objtext',
             valueField: 'objid',
             value: data.filter(function(item){
-              return item.objid === 'NULL';
-            })
+              return item.objid === '99999999';
+            }),
+            maxSelectionRenderer: function(){return '';},
+            maxSelection: 1,
           };
         },
         // 活动对比
@@ -135,7 +136,7 @@
             maxSelection: 6,
             maxSelectionRenderer: function(v){return '最多选取 ' + 6 + ' 项';},
             value: data.filter(function(item){
-              return item.default === 1;
+              return item.default === "1";
             })
           };
         }
@@ -143,21 +144,26 @@
 
       // 2
       actStore = suggest('#storeFront', defaultSuggest.store());
+      actStore.on('blur', function(){
+        this.getSelection().length !== 1 && alert('请选择店铺');
+      });
+      /*
       actStore.on('selectionchange expand', function(){
         var value= this.getValue(),
-            data = this.getData();
+            data = this.getData(),
+            allStore = '99999999';
 
         if(value.length > 0) {
-          value.indexOf('NULL') !== -1
+          value.indexOf(allStore) !== -1
           // 选择全部门店
           ? this.setData(data.map(function(item){
-            item.objid !== 'NULL' ? item.disabled = true
+            item.objid !== allStore ? item.disabled = true
             : item.disabled = false;
             return item;
           }))
           // 门店多选
           : this.setData(data.map(function(item){
-            item.objid !== 'NULL' ? item.disabled = false
+            item.objid !== allStore ? item.disabled = false
             : item.disabled = true;
             return item;
           }));
@@ -167,7 +173,7 @@
             return item;
           }));
         }
-      });
+      });*/
 
       // 3
       actCatalog = suggest('#baseCatalog', defaultSuggest.catalog());
@@ -233,16 +239,16 @@
       // a
       $.extend(rptParams, {
         actid: actid,
-        storeid: storeid,
-        comparetag: comparetag
+        storeid: storeid.toString(),
+        comparetag: JSON.stringify(comparetag)
       });
-      comparetag.length > 0
-        && $.extend(rptParams, {compareid: compareid});
+      compareid.length > 0
+        && $.extend(rptParams, {compareid: JSON.stringify(compareid)});
       // b
-      $.get(actRptUrl, rptParams)
+      $.post(actRptUrl, rptParams)
         // c. 获取接口数据成功，组装 render 数据
         .done(function(data){
-          actRptData = data;
+          actRptData = $.parseJSON(data);
           spin.removeClass('fa-spin');
           $('.form-suggest').siblings().remove();
 
