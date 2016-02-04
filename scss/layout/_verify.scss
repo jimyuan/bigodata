@@ -1,1 +1,29 @@
 @charset 'utf-8';
+
+.table-verify {
+  table-layout: fixed;
+
+  .sum-category {
+    text-align: center;
+    font-weight: bold;
+    vertical-align: middle;
+    background-color: $gray-lighter;
+  }
+
+  .sum-type {
+    background-color: $gray-lighter;
+
+    &:nth-child(2) {
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .fa {
+      padding-right: 10px;
+    }
+  }
+}
+
+.circle-chart-tabs > .tab-pane {
+  height: 600px;
+}

@@ -5,7 +5,8 @@
     api: {
       mbsInfo: 'http://115.28.83.130:16081/ops_activityreport',
       mbsReport: 'http://115.28.83.130:16081/ops_activityreport',
-      verifyInfo: 'data/verify-1.json'
+      verifyInfo: 'data/verify-1.json',
+      verifyReport: 'data/verify-2.json'
     },
     settings: {
       // status text
@@ -103,6 +104,28 @@
       var reg = new RegExp("(^|&)"+ param +"=([^&]*)(&|$)");
       var r = location.search.substr(1).match(reg);
       return (r !== null) ? decodeURIComponent(r[2]) : null;
+    },
+
+    /*
+      将格式化形式的数字变成真正的数字
+    */
+    filterData: function(str){
+      var data = str.replace(/,|%/, '');
+      data = parseFloat(data);
+
+      return isNaN(data) ? 0 : data;
+    },
+
+    upRange: function(data){
+      var times, int, float;
+      Number.isInteger(data)
+        ? (int = data, float = 0)
+        : (int = parseInt(data), float = data - int);
+      int < 100
+        ? times = Math.pow(10, int.toString().length)
+        : times = Math.pow(10, int.toString().length - 1);
+
+      return Math.ceil(data / times) * times + float;
     }
 
   };

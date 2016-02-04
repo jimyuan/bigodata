@@ -72,10 +72,89 @@
               <dt>销售客单价:</dt>
               <dd>{{ sales_price }}</dd>
             </dl>
+
+            <div class="panel panel-info">
+              <div class="panel-heading"><i class="fa fa-pie-chart"></i> 基本指标效果对比</div>
+              <div class="panel-body">
+                <ul class="nav nav-tabs">
+                  {{ each custSort }}
+                  <li>
+                    <a href="#{{$value}}" data-click="swithCust">{{$index}}</a>
+                  </li>
+                  {{ /each }}
+                </ul>
+                <div class="tab-content circle-chart-tabs">
+                  {{ each custSort }}
+                  <div class="tab-pane clearfix" id="{{ $value }}">{{ $value }}</div>
+                  {{ /each }}
+                </div>
+              </div>
+            </div>
+
+            <!-- table -->
+            <table class="table table-bordered table-verify" id="bigoSumTable"></table>
           </div>
         </div>
       </script>
     </div>
+
+    <script type="text/html" id="bigoTable">
+      <thead>
+        <tr>
+          <td colspan="2"></td>
+          {{ each index }}
+          <td>{{ $value }}</td>
+          {{ /each }}
+        </tr>
+      </thead>
+      <tbody>
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">天机产品</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each tg_customer[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">客户抽取</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each cs_customer[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">天机 vs. 客户</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each compare[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+      </tbody>
+    </script>
 
     <!-- build:js js/common.js -->
     <script src="../bower_components/jquery/dist/jquery.js"></script>
