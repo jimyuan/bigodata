@@ -86,11 +86,77 @@
 
       // 2
       if(frashCatCharts[id]){
+        var series = function(){
+          var index = actCompareData.index,
+              tgArr = actCompareData.tg_customer[symbol],
+              csArr = actCompareData.cs_customer[symbol],
+              cpArr = actCompareData.compare[symbol],
+              arr = [], tgData, csData, ranger, piePos;
+
+          var dataStyle = {
+            normal: {
+              label: {
+                show: true,
+                position: 'center',
+                formatter: '{b}',
+                textStyle: {
+                  baseline: 'bottom'
+                }
+              },
+              labelLine: {show: false}
+            }
+          };
+          var placeHolderStyle = {
+            normal : {
+              color: 'rgba(0,0,0,0)',
+              label: {show: false},
+              labelLine: {show: false}
+            },
+            emphasis : {
+              color: 'rgba(0,0,0,0)'
+            }
+          };
+          for(var i = 0, x = index.length; i < x; i++) {
+            tgData = Page.filterData(tgArr[i]);
+            csData = Page.filterData(csArr[i]);
+            ranger = Page.upRange(Math.max(tgData, csData));
+
+            i < 4
+              ? piePos = [(100 / x / 2 * (4 * i + 2)).toFixed(1) + '%', '25%']
+              : piePos = [(100 / x / 2 * (4 * (i - 4) + 2)).toFixed(1) + '%', '75%'];
+
+            arr.push({
+              type: 'pie',
+              center: piePos,
+              radius: ['34%', '40%'],
+              data : [
+                {name: 'invisible', value: ranger - tgData, itemStyle: placeHolderStyle},
+                {name: index[i] + '\n', value: tgData, itemStyle: dataStyle}
+              ]
+            }, {
+              type: 'pie',
+              center: piePos,
+              radius: ['28%', '34%'],
+
+              data : [
+                {name: 'invisible', value: ranger - tgData, itemStyle: placeHolderStyle},
+                {name: cpArr[i], value: csData, itemStyle: dataStyle}
+              ]
+            });
+          }
+          return arr;
+        };
         ec = echarts.init(curTab[0], 'macarons');
         ec.setOption({
+          legend: {
+            x: 'center',
+            y: 'center',
+            data: []
+          },
           title: {show: false},
           tooltip: {show: false},
-          toolbox: {show: false}
+          toolbox: {show: false},
+          series: series()
         });
         $(window).on('resize', ec.resize);
       }
@@ -144,6 +210,9 @@
             actCompareData,
             {custSort: custSort}
           )));
+          // 默认切换到首个 tab
+          $('[data-click="swithCust"]:first').trigger('click');
+          // 默认收起 table 的明细行
           $('[data-click="switchDataRows"]').trigger('click');
         });
     } else {
@@ -156,6 +225,9 @@
         actCompareData,
         {custSort: custSort}
       )));
+      // 默认切换到首个 tab
+      $('[data-click="swithCust"]:first').trigger('click');
+      // 默认收起 table 的明细行
       $('[data-click="switchDataRows"]').trigger('click');
     }
   });

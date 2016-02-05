@@ -117,15 +117,13 @@
     },
 
     upRange: function(data){
-      var times, int, float;
-      Number.isInteger(data)
-        ? (int = data, float = 0)
-        : (int = parseInt(data), float = data - int);
+      var times, int = parseInt(data);
+
       int < 100
         ? times = Math.pow(10, int.toString().length)
         : times = Math.pow(10, int.toString().length - 1);
 
-      return Math.ceil(data / times) * times + float;
+      return Math.ceil(data / times) * times;
     }
 
   };
