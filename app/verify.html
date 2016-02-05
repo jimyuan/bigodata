@@ -1,0 +1,171 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <title>BigoData Admin platform</title>
+    <meta name="description" content="BigoData Admin platform.">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <!-- build:css css/docs.css -->
+    <link rel="stylesheet" href="css/docs.css">
+    <link rel="stylesheet" href="../bower_components/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="../bower_components/magicsuggest/magicsuggest.css">
+    <!-- endbuild -->
+    <!--[if lt IE 9]>
+    <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
+    <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!--[if lt IE 8]>
+    <script src="//cdn.bootcss.com/json3/3.3.2/json3.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+      <script type="text/html" id="basicPanel">
+        <!-- basic panel -->
+        <h2 class="mbs-h2 clearfix">
+          <button class="btn btn-app btn-ok pull-left">
+            <i class="fa fa-check"></i> {{ status}}
+          </button>
+          {{ act_name }}
+          <small>
+            活动描述:{{ act_describe }} 活动时间:{{ act_begindate }}至{{ act_enddate }} 活动目标产品: {{act_target}}
+          </small>
+        </h2>
+        <div class="panel panel-primary">
+          <div class="panel-heading"><i class="fa fa-file-text-o"></i> 活动验证报告</div>
+          <div class="panel-body">
+            <form class="form-inline">
+              <div class="form-group">
+                <label for="storeList">选择店铺 </label>
+                <select name="store" id="storeList" class="form-control">
+                  {{ each act_store.objtext }}
+                  <option value="{{ act_store.objid[$index] }}">{{ $value }}</option>
+                  {{ /each }}
+                </select>
+              </div>
+            </form>
+            <hr>
+            <strong>活动指标</strong>
+            <dl class="dl-horizontal">
+              <dt>活跃客户:</dt>
+              <dd>{{ customer_active }}</dd>
+              <dt>沉默客户:</dt>
+              <dd>{{ customer_silence }}</dd>
+              <dt>品牌新客:</dt>
+              <dd>{{ customer_new }}</dd>
+              <dt>预估人数:</dt>
+              <dd>{{ customer_estimate }}</dd>
+              <dt>捕获率:</dt>
+              <dd>{{ customer_cr }}</dd>
+              <dt>到店转化率:</dt>
+              <dd>{{ scr }}</dd>
+              <dt>目标产品转化率:</dt>
+              <dd>{{ tcr }}</dd>
+              <dt>到店购买人数: </dt>
+              <dd>{{ customer_number }}</dd>
+              <dt>目标产品购买人数:</dt>
+              <dd>{{ customer_targetnumber }}</dd>
+              <dt>销售客单件:</dt>
+              <dd>{{ sales_number }}</dd>
+              <dt>销售客单价:</dt>
+              <dd>{{ sales_price }}</dd>
+            </dl>
+
+            <div class="panel panel-info">
+              <div class="panel-heading"><i class="fa fa-pie-chart"></i> 基本指标效果对比</div>
+              <div class="panel-body">
+                <ul class="nav nav-tabs">
+                  {{ each custSort }}
+                  <li>
+                    <a href="#{{$value}}" data-click="swithCust">{{$index}}</a>
+                  </li>
+                  {{ /each }}
+                </ul>
+                <div class="tab-content circle-chart-tabs">
+                  {{ each custSort }}
+                  <div class="tab-pane clearfix" id="{{ $value }}">{{ $value }}</div>
+                  {{ /each }}
+                </div>
+              </div>
+            </div>
+
+            <!-- table -->
+            <table class="table table-bordered table-verify" id="bigoSumTable"></table>
+          </div>
+        </div>
+      </script>
+    </div>
+
+    <script type="text/html" id="bigoTable">
+      <thead>
+        <tr>
+          <td colspan="2"></td>
+          {{ each index }}
+          <td>{{ $value }}</td>
+          {{ /each }}
+        </tr>
+      </thead>
+      <tbody>
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">天机产品</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each tg_customer[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">客户抽取</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each cs_customer[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+        {{ each custSort }}
+        <tr>
+          {{ if $index=='所有客户' }}
+          <td rowspan="4" class="sum-category">天机 vs. 客户</td>
+          <td class="sum-type" data-click="switchDataRows"><i class="fa fa-caret-square-o-down"></i> 总计</td>
+          {{ else }}
+          <td class="sum-type">{{$index}}</td>
+          {{ /if }}
+
+          {{ each compare[$value] as val }}
+          <td>{{val}}</td>
+          {{ /each }}
+        </tr>
+        {{ /each }}
+
+      </tbody>
+    </script>
+
+    <!-- build:js js/common.js -->
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+    <script src="../bower_components/magicsuggest/magicsuggest.js"></script>
+    <script src="../bower_components/artTemplate/dist/template-debug.js"></script>
+    <script src="../bower_components/echarts/build/source/echarts-all.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/tmpl-helper.js"></script>
+    <!-- endbuild -->
+    <!-- build:js js/verify-report.js -->
+    <script src="js/verify-report.js"></script>
+    <!-- endbuild -->
+  </body>
+</html>

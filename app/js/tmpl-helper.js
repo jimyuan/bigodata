@@ -7,12 +7,15 @@
     用法： {{ value | dataFormat }} or {{ value | dataFormat:'%' }}
   */
   template.helper('dataFormat', function(data){
-    var num = data.toString(), result = '';
-    while (num.length > 3) {
-      result = ',' + num.slice(-3) + result;
-      num = num.slice(0, num.length - 3);
+    var num = data.toString().split('.'), result = '',
+        nz = num[0], nf = num[1];
+    while (nz.length > 3) {
+      result = ',' + nz.slice(-3) + result;
+      nz = nz.slice(0, nz.length - 3);
     }
-    result = num + result;
+
+    nf ? result = nz + result + '.' + nf
+       : result = nz + result;
     return arguments[1]
       ? result + arguments[1]
       : result;
