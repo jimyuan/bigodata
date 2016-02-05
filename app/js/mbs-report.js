@@ -83,11 +83,11 @@
       actMsgData = $.parseJSON(data);
       var basicData = actMsgData.data,
           skuData = actMsgData.act_sku,
-          _html   = render['basicPanel'](basicData, {status: Page.settings.status[basicData.act_status]}) + render['reportPanel']();
+          _html   = render.basicPanel(basicData, {status: Page.settings.status[basicData.act_status]}) + render.reportPanel();
 
       $('.container').html(_html);
       $sku = $('.panel:first>.panel-body');
-      $sku.html(render['skuTable'](skuPage(actMsgData.act_sku)));
+      $sku.html(render.skuTable(skuPage(actMsgData.act_sku)));
     })
     .done(function(){
       /*
@@ -211,7 +211,7 @@
       }
       page = Math.max(1, Math.min(page, pages));
       !isNaN(page)
-        && $sku.html(render['skuTable'](skuPage(skuData, page)));
+        && $sku.html(render.skuTable(skuPage(skuData, page)));
 
     },
 
@@ -273,7 +273,7 @@
             ttl_target: msgSalesData.sales_ttl_target,
             tgt_target: msgSalesData.sales_target_target
           };
-          $('.form-suggest').after($(render['reportChart'](rpData)));
+          $('.form-suggest').after($(render.reportChart(rpData)));
           reFrashCatCharts = {
             '#customer_all': true,
             '#customer_target': true
@@ -390,7 +390,7 @@
             custData = actRptData.msg_customer[symbol];
 
         // 第1张饼图
-        function subPieRender1(){
+        var subPieRender1 = function(){
           var pieData = [], ec, pieOpt,
               cateName = cateData[0].sales_name,
               cateValue= cateData[0].sales_value,
@@ -415,10 +415,10 @@
             subPieRender2(param.selected[0].indexOf(true) + 1);
           });
           $(window).on('resize', ec.resize);
-        }
+        };
 
         // 第2张饼图
-        function subPieRender2(index){
+        var subPieRender2 = function(index){
           var pieData  = [], ec, pieOpt,
               brandData = index > 0 ? cateData[index] : cateData[1],
               brandName = brandData.sales_brandname,
@@ -442,7 +442,7 @@
         };
 
         // 第3张柱状图
-        function subBarRender3() {
+        var subBarRender3 = function() {
           var cust3 = custData[0].category.slice(0, 3), ec, distData;
 
           distData = Page.settings.ccOpts({
@@ -483,10 +483,10 @@
             subBarRender5(param.dataIndex + 1);
           });
           $(window).on('resize', ec.resize);
-        }
+        };
 
         // 第4张饼图生成方法
-        function subPieRender4(index){
+        var subPieRender4 = function(index){
           var pieOpt, ec,
               subCatData = index > 0 ? custData[index] : custData[1],
               category = subCatData.category,
@@ -513,7 +513,7 @@
         };
 
         // 第5张柱状图
-        function subBarRender5(index){
+        var subBarRender5 = function(index){
           var comboData = index > 0 ? custData[index] : custData[1],
               numbers = comboData.category_analysis_numbers,
               sales = comboData.category_analysis_sales,
@@ -558,7 +558,7 @@
   // 翻页 onchange 事件
   $(document).on('change', '#pageSetting', function(){
     var records = $(this).val() - 0,
-        _html = render['skuTable'](skuPage(actMsgData.act_sku, 1, records))
-    $sku.html(_html)
+        _html = render.skuTable(skuPage(actMsgData.act_sku, 1, records));
+    $sku.html(_html);
   });
 })(jQuery);

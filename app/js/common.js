@@ -61,7 +61,7 @@
             data: ccData.values,
             barMaxWidth: 50
           }]
-        }
+        };
       },
       pieOpts: function(pieData){
         return {
@@ -81,7 +81,7 @@
             type: 'pie',
             radius: '65%'
           }]
-        }
+        };
       }
     },
 

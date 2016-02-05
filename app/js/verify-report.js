@@ -36,13 +36,13 @@
       actCompareData = actMsgData.msg_compare;
 
       var basicData = actMsgData.data,
-          _html   = render['basicPanel']($.extend(
+          _html   = render.basicPanel($.extend(
             {},
             basicData,
             {status: Page.settings.status[basicData.act_status]},
-            {custSort, custSort}
+            {custSort: custSort}
           )),
-          _table  = render['bigoTable']($.extend(
+          _table  = render.bigoTable($.extend(
             {},
             actCompareData,
             {custSort: custSort}
@@ -205,7 +205,7 @@
         .done(function(data){
           var d = $.isPlainObject(data) ? data : $.parseJSON(data);
           actCompareData = d.msg_compare;
-          $('#bigoSumTable').html(render['bigoTable']($.extend(
+          $('#bigoSumTable').html(render.bigoTable($.extend(
             {},
             actCompareData,
             {custSort: custSort}
@@ -220,7 +220,7 @@
         所有客户表格数据第一次 ajax 请求已缓存，不必重新请求
       */
       actCompareData = actMsgData.msg_compare;
-      $('#bigoSumTable').html(render['bigoTable']($.extend(
+      $('#bigoSumTable').html(render.bigoTable($.extend(
         {},
         actCompareData,
         {custSort: custSort}
